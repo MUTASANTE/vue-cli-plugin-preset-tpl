@@ -3,9 +3,21 @@ module.exports = api => {
   api.extendPackage({
     'dependencies': {
       'axios': '*',
-      'vue-resource': '*'
+      'vue-resource': '*',
+      'jquery': '*'
     }
   })
+
+  if (options.bootstrap) {
+    api.extendPackage({
+      'dependencies': {
+        'bootstrap': '^4.0'
+      },
+      'peerDependencies': {
+        'popper.js': '*'
+      }
+    })
+  }
 
   const filesToDelete = [
     'src/main.js',
