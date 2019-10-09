@@ -1,0 +1,68 @@
+{
+    "vetur.validation.template": false,
+    "vetur.format.defaultFormatterOptions": {
+        "prettier": {
+            "singleQuote": true
+        }
+    },
+    "prettier.singleQuote": true,
+    "prettier.jsxSingleQuote": true,
+    "eslint.validate": [
+        {
+            "language": "vue",
+            "autoFix": true
+        },
+        {
+            "language": "html",
+            "autoFix": true
+        },
+        {
+            "language": "javascript",
+            "autoFix": true
+        },
+        {
+            "language": "javascriptreact",
+            "autoFix": true
+        }
+    ],
+    "eslint.autoFixOnSave": true,
+    "vetur.completion.useScaffoldSnippets": false,
+    "[php]": {
+        "files.encoding": "windows1252"
+    },
+    "html-css-class-completion.remoteStyleSheets": [
+        "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    ],
+    "css.remoteStyleSheets": [
+        "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    ],
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "editor.formatOnType": false,
+    "files.hotExit": "off",
+    "errorLens.enabledDiagnosticLevels": [
+        "error"
+    ],
+    "errorLens.gutterIconsEnabled": true,
+    "vuejsAutoImport.hasTrailingComma": true,
+    "vuejsAutoImport.importWithSemicolon": true,
+    "vuejsAutoImport.insertOneComponentPerLine": true,
+    "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
+    "terminal.integrated.shellArgs.windows": [
+        "/K",
+        "E:\\regroup\\git\\PHPConfiguration\\nodevars.bat"
+    ],
+    "auto-close-tag.fullMode": true,
+    "auto-close-tag.SublimeText3Mode": true,
+    "auto-close-tag.enableAutoCloseTag": false,
+    "javascript.preferences.quoteStyle": "single",
+    "typescript.preferences.quoteStyle": "single",
+    "[javascriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "octref.vetur"
+    },
+    "terminal.integrated.rendererType": "canvas",
+    "emmet.triggerExpansionOnTab": true
+}
