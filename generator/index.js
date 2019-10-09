@@ -8,10 +8,17 @@ module.exports = (api, options, rootOptions) => {
     }
   })
 
+  if (options.bootstrap && options.popperjs) {
+    api.extendPackage({
+      'dependencies': {
+        'popper.js': '*'
+      }
+    })
+  }
+
   if (options.bootstrap) {
     api.extendPackage({
       'dependencies': {
-        'popper.js': '*',
         'bootstrap': '^4.0'
       }
     })
