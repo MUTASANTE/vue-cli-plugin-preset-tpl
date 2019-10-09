@@ -13,4 +13,4 @@ module.exports = [
     // https://github.com/SBoudrias/Inquirer.js/blob/master/packages/inquirer/examples/when.js#L18
     when: answers => !!answers.bootstrap
   }
-]]
+]
