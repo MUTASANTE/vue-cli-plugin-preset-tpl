@@ -11,10 +11,8 @@ module.exports = (api, options, rootOptions) => {
   if (options.bootstrap) {
     api.extendPackage({
       'dependencies': {
+        'popper.js': '*',
         'bootstrap': '^4.0'
-      },
-      'peerDependencies': {
-        'popper.js': '*'
       }
     })
   }
