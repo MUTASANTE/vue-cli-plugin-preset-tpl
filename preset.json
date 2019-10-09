@@ -1,22 +1,16 @@
 {
-  "useTaobaoRegistry": false,
-  "packageManager": "npm",
-  "presets": {
-    "muta": {
-      "useConfigFiles": true,
-      "plugins": {
-        "@vue/cli-plugin-babel": {},
-        "@vue/cli-plugin-eslint": {
-          "config": "prettier",
-          "lintOn": [
-            "save"
-          ]
-        }
-      },
-      "router": true,
-      "routerHistoryMode": true,
-      "vuex": true,
-      "cssPreprocessor": "dart-sass"
+  "useConfigFiles": true,
+  "plugins": {
+    "@vue/cli-plugin-babel": {},
+    "@vue/cli-plugin-eslint": {
+      "config": "prettier",
+      "lintOn": [
+    "save"
+      ]
     }
-  }
+  },
+  "router": true,
+  "routerHistoryMode": true,
+  "vuex": true,
+  "cssPreprocessor": "dart-sass"
 }
