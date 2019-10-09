@@ -1,6 +1,7 @@
 {
-  "name": "vue-cli-preset",
+  "name": "vue-cli-plugin-preset-tpl",
   "version": "0.1.0",
   "description": "A Vue CLI 3 preset",
-  "repository": "git@github.com:MUTASANTE/vue-cli-preset.git"
+  "repository": "git@github.com:MUTASANTE/vue-cli-preset.git",
+  "main": "index.js"
 }
