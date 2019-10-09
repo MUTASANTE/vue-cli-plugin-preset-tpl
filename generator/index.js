@@ -2,8 +2,8 @@ module.exports = (api, options, rootOptions) => {
   // https://github.com/vxhly/vue-cli-plugin-preset-tpl/blob/master/generator/index.js
   api.extendPackage({
     'dependencies': {
-      'axios': '*',
       'vue-resource': '*',
+      'axios': '*',
       'jquery': '*'
     }
   })
