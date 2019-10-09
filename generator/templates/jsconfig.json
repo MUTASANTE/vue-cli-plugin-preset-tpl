@@ -1,0 +1,13 @@
+{
+  "Add baseUrl and paths in tsconfig.json and jsconfig.json (for )": [
+    "https://github.com/facebook/create-react-app/issues/5645",
+    "https://forum.vuejs.org/t/using-the-vue-cli-alias-in-vs-code/47530/2",
+    "https://code.visualstudio.com/docs/languages/jsconfig#_using-webpack-aliases"
+  ],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+  }
+}
