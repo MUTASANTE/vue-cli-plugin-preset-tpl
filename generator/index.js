@@ -31,5 +31,8 @@ module.exports = (api, options, rootOptions) => {
       .forEach(name => delete files[name])
   })
 
-  api.render('./templates')
+  api.render('./templates', {
+    // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
+    useBootstrap: options.bootstrap
+  })
 }
