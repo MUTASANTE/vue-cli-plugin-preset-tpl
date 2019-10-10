@@ -1,0 +1,4 @@
+# If env files don't contain a NODE_ENV variable, it will be set accordingly.
+# For example, NODE_ENV will be set to "production" in production mode,
+# "test" in test mode, and defaults to "development" otherwise.
+NODE_ENV=standalone
