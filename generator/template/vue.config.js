@@ -36,6 +36,20 @@ module.exports = {
         // dans le "bundle" final en utilisant 'vue/dist/vue.esm.js' :
         vue$: 'vue/dist/vue.runtime.esm.js'
       }
+    },
+    optimization: {
+      // https://stackoverflow.com/a/55372086/2332350
+      // Pas de "chunk files", tout sera compilé dans un seul fichier (même les bibliothèques "vendor" en "dependencies" de ce projet).
+      // Nécessite que VUE_APP_LOAD_MODE utilise le 'sync' loading mode et que tous les fichiers *.vue qui sont chargés
+      // de manière asynchrone via () => import(...) se trouvent dans le répertoire src/components pour que src/conf.js
+      // les précharge en réalité déjà de manière synchrone (Webpack sait détecter et gérer cela intelligemment au moment du build).
+      // IMPORTANT: le chargement des styles CSS ne fonctionnera plus avec les web components !!!
+      //splitChunks: false
     }
-  }
+  },
+  filenameHashing: false
+  // https://filosophy.org/code/bundling-vue-css-and-js-into-a-single-output-file/
+  //css: {
+  //  extract: true,
+  //}
 };
