@@ -48,10 +48,12 @@ module.exports.hooks = (api) => {
   api.afterInvoke(() => {
     const fs = require('fs');
     if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
-      fs.rmdir(api.resolve('./src/store'));
+      // No recursive removal
+      fs.rmdirSync(api.resolve('./src/store'));
     }
     if (fs.lstatSync(api.resolve('./src/router')).isDirectory()) {
-      fs.rmdir(api.resolve('./src/router'));
+      // No recursive removal
+      fs.rmdirSync(api.resolve('./src/router'));
     }
   })
 }
