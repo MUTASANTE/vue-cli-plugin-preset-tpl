@@ -47,13 +47,12 @@ module.exports = (api, options, rootOptions) => {
 module.exports.hooks = (api) => {
   api.afterInvoke(() => {
     const fs = require('fs');
+    const lignator = require('lignator');
     if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
-      // No recursive removal
-      fs.rmdirSync(api.resolve('./src/store'));
+      lignator.remove(api.resolve('./src/store'));
     }
     if (fs.lstatSync(api.resolve('./src/router')).isDirectory()) {
-      // No recursive removal
-      fs.rmdirSync(api.resolve('./src/router'));
+      lignator.remove(api.resolve('./src/router'));
     }
   })
 }
