@@ -41,3 +41,17 @@ module.exports = (api, options, rootOptions) => {
     useBootstrap: options.bootstrap
   })
 }
+
+// Vue-cli v4: delete router and store files from their new locations
+// https://cli.vuejs.org/migrating-from-v3/#the-global-vue-cli
+module.exports.hooks = (api) => {
+  api.afterInvoke(() => {
+    const fs = require('fs');
+    if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
+      fs.rmdir(api.resolve('./src/store'));
+    }
+    if (fs.lstatSync(api.resolve('./src/router')).isDirectory()) {
+      fs.rmdir(api.resolve('./src/router'));
+    }
+  })
+}
