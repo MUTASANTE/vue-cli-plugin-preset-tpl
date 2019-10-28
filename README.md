@@ -1,4 +1,4 @@
-# Vue CLI 3 Preset
+# Vue CLI 3 & 4 Preset
 
 ### 🎉 Installation
 
