@@ -4,7 +4,11 @@ module.exports = (api, options, rootOptions) => {
     'dependencies': {
       'vue-resource': '*',
       'axios': '*',
-      'jquery': '*'
+      'jquery': '*',
+      "lignator": "^v1.0.0"
+    },
+    "devDependencies": {
+      "lignator": "^v1.0.0"
     }
   })
 
