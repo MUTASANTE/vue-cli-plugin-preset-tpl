@@ -3,11 +3,5 @@
   "version": "0.1.0",
   "description": "A Vue CLI 3 preset",
   "repository": "git@github.com:MUTASANTE/vue-cli-plugin-preset-tpl.git",
-  "main": "index.js",
-  "dependencies": {
-    "lignator": "^v1.0.0"
-  },
-  "devDependencies": {
-    "lignator": "^v1.0.0"
-  }
+  "main": "index.js"
 }

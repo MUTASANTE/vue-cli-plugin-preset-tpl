@@ -4,11 +4,7 @@ module.exports = (api, options, rootOptions) => {
     'dependencies': {
       'vue-resource': '*',
       'axios': '*',
-      'jquery': '*',
-      "lignator": "^v1.0.0"
-    },
-    "devDependencies": {
-      "lignator": "^v1.0.0"
+      'jquery': '*'
     }
   })
 
@@ -51,7 +47,7 @@ module.exports = (api, options, rootOptions) => {
 module.exports.hooks = (api) => {
   api.afterInvoke(() => {
     const fs = require('fs');
-    const lignator = require('lignator');
+    const lignator = require('./lignator');
     if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
       lignator.remove(api.resolve('./src/store'));
     }
