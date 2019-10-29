@@ -1,5 +1,10 @@
-const lignator = require('lignator');
 const fs = require('fs');
+// XXX: require('lignator') will only work with "vue add ..." but not with "vue create ... --preset ...",
+// i.e. it will work if this project is used as a vue-cli plugin but not as a vue-cli preset (no project dependencies will be loaded!),
+// so for now we provide a local lignator file as a fallback plan.
+// To be used as vue-cli plugin, note that this project should be named in package.json as @MUTASANTE/vue-cli-plugin-preset-tpl
+// and registered on npmjs.com as @MUTASANTE/preset-tpl
+const lignator = require.resolve('lignator') ? require('lignator') : require('./lignator');
 
 module.exports = (api, options, rootOptions) => {
   // https://github.com/vxhly/vue-cli-plugin-preset-tpl/blob/master/generator/index.js
