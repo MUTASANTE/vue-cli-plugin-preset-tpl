@@ -4,55 +4,57 @@ const fs = require('fs');
 // so for now we provide a local lignator file as a fallback plan.
 // To be used as vue-cli plugin, note that this project should be named in package.json as @MUTASANTE/vue-cli-plugin-preset-tpl
 // and registered on npmjs.com as @MUTASANTE/preset-tpl
-const lignator = require.resolve('lignator') ? require('lignator') : require('./lignator');
+try {
+  var lignator = require('lignator');
+} catch (e) {
+  if (e instanceof Error && e.code === 'MODULE_NOT_FOUND')
+    lignator = require('./lignator');
+  else throw e;
+}
 
 module.exports = (api, options, rootOptions) => {
   // https://github.com/vxhly/vue-cli-plugin-preset-tpl/blob/master/generator/index.js
   api.extendPackage({
-    'dependencies': {
+    dependencies: {
       'vue-resource': '*',
-      'axios': '*',
-      'jquery': '*'
+      axios: '*',
+      jquery: '*'
     }
-  })
+  });
 
   if (options.bootstrap && options.popperjs) {
     api.extendPackage({
-      'dependencies': {
+      dependencies: {
         'popper.js': '*'
       }
-    })
+    });
   }
 
   if (options.bootstrap) {
     api.extendPackage({
-      'dependencies': {
-        'bootstrap': '^4.0'
+      dependencies: {
+        bootstrap: '^4.0'
       }
-    })
+    });
   }
 
-  const filesToDelete = [
-    'src/main.js',
-    'src/router.js',
-    'src/store.js'
-  ]
+  const filesToDelete = ['src/main.js', 'src/router.js', 'src/store.js'];
 
   api.render(files => {
     Object.keys(files)
       .filter(name => filesToDelete.indexOf(name) > -1)
-      .forEach(name => delete files[name])
-  })
+      .forEach(name => delete files[name]);
+  });
 
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useBootstrap: options.bootstrap
-  })
-}
+  });
+};
 
 // Vue-cli v4: delete router and store files from their new locations
 // https://cli.vuejs.org/migrating-from-v3/#the-global-vue-cli
-module.exports.hooks = (api) => {
+module.exports.hooks = api => {
   api.afterInvoke(() => {
     if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
       lignator.remove(api.resolve('./src/store'));
@@ -60,5 +62,5 @@ module.exports.hooks = (api) => {
     if (fs.lstatSync(api.resolve('./src/router')).isDirectory()) {
       lignator.remove(api.resolve('./src/router'));
     }
-  })
-}
+  });
+};
