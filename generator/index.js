@@ -1,3 +1,6 @@
+const lignator = require('lignator');
+const fs = require('fs');
+
 module.exports = (api, options, rootOptions) => {
   // https://github.com/vxhly/vue-cli-plugin-preset-tpl/blob/master/generator/index.js
   api.extendPackage({
@@ -46,8 +49,6 @@ module.exports = (api, options, rootOptions) => {
 // https://cli.vuejs.org/migrating-from-v3/#the-global-vue-cli
 module.exports.hooks = (api) => {
   api.afterInvoke(() => {
-    const fs = require('fs');
-    const lignator = require('./lignator');
     if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
       lignator.remove(api.resolve('./src/store'));
     }
