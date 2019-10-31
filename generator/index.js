@@ -12,6 +12,15 @@ try {
   else throw e;
 }
 
+function directoryExits(dir) {
+  try {
+    return fs.statSync(dir).isDirectory();
+  } catch (err) {
+    // Catch ENOENT errors
+    return false;
+  }
+}
+
 module.exports = (api, options, rootOptions) => {
   // https://github.com/vxhly/vue-cli-plugin-preset-tpl/blob/master/generator/index.js
   api.extendPackage({
@@ -57,10 +66,10 @@ module.exports = (api, options, rootOptions) => {
 // https://cli.vuejs.org/migrating-from-v3/#the-global-vue-cli
 module.exports.hooks = api => {
   api.afterInvoke(() => {
-    if (fs.lstatSync(api.resolve('./src/store')).isDirectory()) {
+    if (directoryExits(api.resolve('./src/store'))) {
       lignator.remove(api.resolve('./src/store'));
     }
-    if (fs.lstatSync(api.resolve('./src/router')).isDirectory()) {
+    if (directoryExits(api.resolve('./src/router'))) {
       lignator.remove(api.resolve('./src/router'));
     }
   });
