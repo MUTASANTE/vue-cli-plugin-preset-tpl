@@ -1,0 +1,16 @@
+- Find a way to dynamically choose default value for property 'globalScriptsPath' inside prompts.js
+Being able to do something like that would be great:
+
+module.exports = api => {
+  return [
+    {
+      name: 'globalScriptsPath',
+      type: 'input',
+      message: 'Path to the global NodeJS, NPM and Vuejs scripts ',
+      default: api.resolve('.') + '/../myDefaultGlobalScriptsDir',
+      validate: input => !!input
+    }
+  ];
+};
+
+- Fix generator/index.js to be able to load the plugin dependency "lignator" when using this project as vue-cli preset
