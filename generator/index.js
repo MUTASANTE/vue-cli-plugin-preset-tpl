@@ -48,7 +48,8 @@ module.exports = (api, options, rootOptions) => {
 
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
-    useBootstrap: options.bootstrap
+    useBootstrap: options.bootstrap,
+    globalScriptsPath: options.globalScriptsPath
   });
 };
 
