@@ -15,10 +15,18 @@ Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // d'un formulaire HTML, sans quoi le serveur PHP ne peut pas peupler
 // $_PUT (si supporté) ou $_POST :
 //Vue.http.options.emulateJSON = true;
+// https://codewithhugo.com/pass-cookies-axios-fetch-requests/
+// https://stackoverflow.com/questions/52010541/what-does-jquery-ajax-xhrfields-withcredentials-true-do
+// Dans le cas des requêtes "CORS", si le serveur autorise l'envoi de données
+// d'authentification (credentials) vers d'autres domaines que le sien (via "Access-Control-Allow-Credentials" à "true"),
+// alors il faut également prévenir le client d'effectuer l'envoi de ces données (cookies, headers, certificats TLS, ...)
+// si nécessaire :
+//Vue.http.options.credentials = true;
 
 axios.defaults.baseURL = 'http://localhost:81/tp/PHPDemoGeremi';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
+//axios.defaults.withCredentials = true;
 
 // eslint-disable-next-line
 const httpResource = Vue.resource(
