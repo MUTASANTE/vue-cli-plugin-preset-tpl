@@ -47,6 +47,18 @@ module.exports = (api, options, rootOptions) => {
     });
   }
 
+  if (options.fontawesome) {
+    api.extendPackage({
+      dependencies: {
+        '@fortawesome/fontawesome-svg-core': '*',
+        '@fortawesome/free-solid-svg-icons': '*',
+        '@fortawesome/vue-fontawesome': '*',
+        '@fortawesome/free-brands-svg-icons': '*',
+        '@fortawesome/free-regular-svg-icons': '*'
+      }
+    });
+  }
+
   const filesToDelete = ['src/main.js', 'src/router.js', 'src/store.js'];
 
   api.render(files => {
@@ -58,6 +70,7 @@ module.exports = (api, options, rootOptions) => {
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useBootstrap: options.bootstrap,
+    useFontawesome: options.fontawesome,
     globalScriptsPath: options.globalScriptsPath
   });
 };

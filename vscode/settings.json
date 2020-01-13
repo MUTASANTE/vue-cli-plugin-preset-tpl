@@ -25,7 +25,6 @@
             "autoFix": true
         }
     ],
-    "eslint.autoFixOnSave": true,
     "vetur.completion.useScaffoldSnippets": false,
     "[php]": {
         "files.encoding": "windows1252"
@@ -64,5 +63,15 @@
         "editor.defaultFormatter": "octref.vetur"
     },
     "terminal.integrated.rendererType": "canvas",
-    "emmet.triggerExpansionOnTab": true
+    "emmet.triggerExpansionOnTab": true,
+    "window.zoomLevel": 0,
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "terminal.integrated.scrollback": 10000,
+    "terminal.integrated.cursorBlinking": true,
+    "terminal.integrated.copyOnSelection": true,
+    "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": true
+    }
 }

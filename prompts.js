@@ -14,6 +14,12 @@ module.exports = [
     when: answers => !!answers.bootstrap
   },
   {
+    name: 'fontawesome',
+    type: 'confirm',
+    message: 'Use vue-fontawesome? ',
+    default: false
+  },
+  {
     name: 'globalScriptsPath',
     type: 'input',
     message: 'Path to the global NodeJS, NPM and Vuejs scripts ',
