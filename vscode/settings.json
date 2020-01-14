@@ -4,6 +4,9 @@
             "singleQuote": true
         }
     },
+    // If you use Vetur plugin, set "vetur.validation.template": false to avoid default Vetur template validation.
+    // https://vuejs.github.io/vetur/linting-error.html#linting
+    "vetur.validation.template": false,
     "prettier.singleQuote": true,
     "prettier.jsxSingleQuote": true,
     "vetur.completion.useScaffoldSnippets": false,
