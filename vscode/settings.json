@@ -1,5 +1,4 @@
 {
-    "vetur.validation.template": false,
     "vetur.format.defaultFormatterOptions": {
         "prettier": {
             "singleQuote": true
@@ -7,24 +6,6 @@
     },
     "prettier.singleQuote": true,
     "prettier.jsxSingleQuote": true,
-    "eslint.validate": [
-        {
-            "language": "vue",
-            "autoFix": true
-        },
-        {
-            "language": "html",
-            "autoFix": true
-        },
-        {
-            "language": "javascript",
-            "autoFix": true
-        },
-        {
-            "language": "javascriptreact",
-            "autoFix": true
-        }
-    ],
     "vetur.completion.useScaffoldSnippets": false,
     "[php]": {
         "files.encoding": "windows1252"
@@ -36,6 +17,7 @@
         "https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     ],
     "editor.formatOnPaste": true,
+    // Will call formaters defined by Vetur for "[vue]" files, mostly prettier or prettier variants.
     "editor.formatOnSave": true,
     "editor.formatOnType": false,
     "files.hotExit": "off",
@@ -56,22 +38,16 @@
     "auto-close-tag.enableAutoCloseTag": false,
     "javascript.preferences.quoteStyle": "single",
     "typescript.preferences.quoteStyle": "single",
-    "[javascriptreact]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[vue]": {
-        "editor.defaultFormatter": "octref.vetur"
-    },
     "terminal.integrated.rendererType": "canvas",
     "emmet.triggerExpansionOnTab": true,
     "window.zoomLevel": 0,
-    "[javascript]": {
-        "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
     "terminal.integrated.scrollback": 10000,
     "terminal.integrated.cursorBlinking": true,
     "terminal.integrated.copyOnSelection": true,
     "editor.codeActionsOnSave": {
+        // Will call eslint after "editor.formatOnSave" is done.
+        // Eslint can itself call Prettier (see .eslintrc.js), so be careful
+        // to not conflict with Vetur's prettier rules used by "editor.formatOnSave.
         "source.fixAll.eslint": true
     }
 }
