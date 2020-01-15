@@ -23,7 +23,7 @@ module.exports = [
     name: 'globalScriptsPath',
     type: 'input',
     message: 'Path to the global NodeJS, NPM and Vuejs scripts ',
-    default: 'E:\\regroup\\git\\PHPConfiguration',
+    default: process.cwd(),
     validate: input => !!input
   }
 ];
