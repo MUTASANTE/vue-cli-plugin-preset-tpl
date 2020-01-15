@@ -1,5 +1,5 @@
 const path = require('path');
-const dirPath = path.resolve(process.cwd(), '../PHPConfiguration');
+const dirPath = path.resolve(process.cwd(), './PHPConfiguration');
 
 module.exports = [
   {
