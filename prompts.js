@@ -1,3 +1,6 @@
+const path = require('path');
+const dirPath = path.resolve(process.cwd(), '../PHPConfiguration');
+
 module.exports = [
   {
     name: 'bootstrap',
@@ -23,7 +26,7 @@ module.exports = [
     name: 'globalScriptsPath',
     type: 'input',
     message: 'Path to the global NodeJS, NPM and Vuejs scripts ',
-    default: process.cwd(),
+    default: dirPath,
     validate: input => !!input
   }
 ];
