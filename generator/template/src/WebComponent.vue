@@ -29,7 +29,9 @@ export default {
   mounted() {
     // XXX : est-ce utile ?
     // https://github.com/vuejs/vue-web-component-wrapper/issues/19#issuecomment-531861202
-    router.push('/');
+    router.push('/').catch(err => {
+      throw new Error(`Problem handling something: ${err}.`);
+    });
   }
 };
 </script>
