@@ -105,7 +105,14 @@ export function init(Vue, autoloadComponents = true) {
     // existera si le composant a été exporté avec `export default`,
     // sinon revenir à la racine du module.
     const componentConfig = componentContent.default || componentContent;
-    // Créer un composant global
+    // Création d'un composant global.
+    // Il y a un plusieurs avantages à faire cela :
+    // - un composant global n'a pas besoin de définir l'attribut "name" pour
+    //   pouvoir s'appeler récursivement (Recursive Components)
+    //   https://vuejs.org/v2/guide/components-edge-cases.html#Recursive-Components
+    // - Les références circulaires entre composants sont résolues automatiquement
+    //   si ceux-ci sont enregistrés globalement
+    //   https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
     if (componentConfig instanceof Promise) {
       // Principalement dans le cas d'un "lazy-load".
       Vue.component(componentName, () => componentConfig);
