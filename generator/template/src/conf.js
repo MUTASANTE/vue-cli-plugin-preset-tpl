@@ -2,8 +2,52 @@ import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import jQuery from 'jquery';
 
-var statusHandler = status => {
+const statusHandler = status => {
   if (status === 'prepare') console.clear();
+};
+
+// https://markeev.com/posts/vue-error-handling/
+// handle errors same way as Vue.js handles them
+function handleError(error, vm, info) {
+  let cur = vm,
+    nbHooks = 0;
+  while ((cur = cur.$parent)) {
+    var hooks = cur.$options.errorCaptured || [];
+    for (let hook of hooks) {
+      nbHooks++;
+      if (hook.call(cur, error, vm, info) === false) break;
+    }
+  }
+  // fallback
+  if (!nbHooks && window && window.onerror) {
+    window.onerror(info, '', '', '', error);
+  }
+}
+
+// https://markeev.com/posts/vue-error-handling/
+// wrap all methods of component with try-catch
+const handleMethodErrorsMixin = {
+  beforeCreate: function() {
+    var _self = this;
+    var methods = this.$options.methods || {};
+    for (var key in methods) {
+      var original = methods[key];
+      methods[key] = function() {
+        try {
+          var result = original.apply(this, arguments);
+          // let's analyse what is returned from the method
+          if (result instanceof Promise) {
+            // this looks like a Promise. let's handle it's errors:
+            return result.catch(function(err) {
+              handleError(err, _self, key);
+            });
+          } else return result;
+        } catch (e) {
+          handleError(e, _self, key);
+        }
+      };
+    }
+  }
 };
 
 // NB : il faut d'abord appeler init() pour initialiser le contenu de "conf" !
@@ -25,14 +69,25 @@ export const conf = {
  * - utilisation du plugin pagekit/vue-resource (pour les requêtes serveur asynchrones)
  * @param {*} Vue composant Vue qui sera "mount-é" et affiché
  * @param {boolean} autoloadComponents ajout/maj de l'autoloading de composants Vuejs ou non
+ * @param {boolean} addMethodErrorsHandlerMixin ajout du Mixin "handleMethodErrorsMixin"
+ * au composant Vue pour une gestion plus poussée des erreurs et des exceptions (EXPERIMENTAL)
  */
-export function init(Vue, autoloadComponents = true) {
+export function init(
+  Vue,
+  autoloadComponents = true,
+  addMethodErrorsHandlerMixin = false
+) {
   // https://github.com/webpack/webpack-dev-server/issues/565
   if (process.env.NODE_ENV === 'development' && module && module.hot) {
     module.hot.accept(); // already had this init code
 
     module.hot.removeStatusHandler(statusHandler);
     module.hot.addStatusHandler(statusHandler);
+
+    if (addMethodErrorsHandlerMixin) {
+      // add the mixin
+      Vue.mixin(handleMethodErrorsMixin);
+    }
 
     Vue.config.warnHandler = function(msg, vm, trace) {
       if (console && !Vue.config.silent) {
@@ -47,11 +102,34 @@ export function init(Vue, autoloadComponents = true) {
       }
       alert(`ERROR: ${msg}${trace}`);
     };
+
+    if (window && !window.onerror) {
+      // https://developer.mozilla.org/fr/docs/Web/API/GlobalEventHandlers/onerror
+      // https://www.raymondcamden.com/2019/05/01/handling-errors-in-vuejs
+      // If you define this, and do not use Vue.config.errorHandler, then this will not help.
+      window.onerror = function(msg, url, lineNo, columnNo, error) {
+        var string = msg.toLowerCase();
+        var substring = 'script error';
+        if (string.indexOf(substring) > -1) {
+          alert('Script Error: See Browser Console for Detail');
+        } else {
+          var message = [
+            'Message: ' + msg,
+            'URL: ' + url,
+            'Line: ' + lineNo,
+            'Column: ' + columnNo,
+            'Error object: ' + JSON.stringify(error)
+          ].join(' - ');
+          alert(message);
+        }
+        return false;
+      };
+    }
   }
 
   // https://stackoverflow.com/questions/52548556/cannot-read-property-fn-of-undefined-in-vuejs
   // https://medium.com/code4mk-org/how-to-use-jquery-inside-vue-add-other-js-library-inside-vue-9eea8fbd0416
-  if (!window.jQuery) {
+  if (window && !window.jQuery) {
     window.jQuery = jQuery;
   }
 
