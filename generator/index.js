@@ -72,7 +72,7 @@ module.exports = (api, options, rootOptions) => {
 
   api.render(files => {
     Object.keys(files)
-      //.filter(path => filesToDelete.indexOf(path) > -1)
+      .filter(path => filesToDelete.indexOf(path) > -1)
       .forEach(path => delete files[path]);
   });
 
