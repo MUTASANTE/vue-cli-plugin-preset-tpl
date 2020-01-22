@@ -68,12 +68,12 @@ module.exports = (api, options, rootOptions) => {
     });
   }
 
-  const filesToDelete = ['src/App.vue', 'src/conf.js', 'src/main.js', 'src/router.js', 'src/store.js'];
+  const filesToDelete = ['src/app.vue', 'src/conf.js', 'src/main.js', 'src/router.js', 'src/store.js'];
 
   api.render(files => {
     Object.keys(files)
-      .filter(name => filesToDelete.indexOf(name) > -1)
-      .forEach(name => delete files[name]);
+      .filter(path => filesToDelete.indexOf(path.toLowerCase()) > -1)
+      .forEach(path => delete files[path]);
   });
 
   api.render('./template', {
