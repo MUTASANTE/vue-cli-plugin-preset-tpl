@@ -68,7 +68,7 @@ module.exports = (api, options, rootOptions) => {
     });
   }
 
-  const filesToDelete = ['src/conf.js', 'src/main.js', 'src/router.js', 'src/store.js'];
+  const filesToDelete = ['src/App.vue', 'src/conf.js', 'src/main.js', 'src/router.js', 'src/store.js'];
 
   api.render(files => {
     Object.keys(files)
