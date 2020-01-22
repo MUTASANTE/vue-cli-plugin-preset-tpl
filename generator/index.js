@@ -60,7 +60,15 @@ module.exports = (api, options, rootOptions) => {
     });
   }
 
-  const filesToDelete = ['src/main.js', 'src/router.js', 'src/store.js'];
+  if (options.veevalidate) {
+    api.extendPackage({
+      dependencies: {
+        'vee-validate': '*'
+      }
+    });
+  }
+
+  const filesToDelete = ['src/conf.js', 'src/main.js', 'src/router.js', 'src/store.js'];
 
   api.render(files => {
     Object.keys(files)
@@ -72,6 +80,7 @@ module.exports = (api, options, rootOptions) => {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useBootstrap: options.bootstrap,
     useFontawesome: options.fontawesome,
+    useVeevalidate: options.veevalidate,
     globalScriptsPath: options.globalScriptsPath
   });
 };

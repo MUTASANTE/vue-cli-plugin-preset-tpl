@@ -23,6 +23,12 @@ module.exports = [
     default: false
   },
   {
+    name: 'veevalidate',
+    type: 'confirm',
+    message: 'Use VeeValidate? ',
+    default: false
+  },
+  {
     name: 'globalScriptsPath',
     type: 'input',
     message: 'Path to the global NodeJS, NPM and Vuejs scripts ',
