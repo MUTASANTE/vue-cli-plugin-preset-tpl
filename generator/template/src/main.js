@@ -3,7 +3,8 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import { init } from './conf';
-<% if (useVeevalidate) { %>import {
+<% if (useVeevalidate) { -%>
+import {
   extend as veeExtend,
   ValidationProvider,
   ValidationObserver
@@ -16,7 +17,8 @@ Object.keys(rules).forEach(rule => {
 });
 
 Vue.component('ValidationProvider', ValidationProvider);
-Vue.component('ValidationObserver', ValidationObserver);<% } %>
+Vue.component('ValidationObserver', ValidationObserver);
+<% } -%>
 
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
 

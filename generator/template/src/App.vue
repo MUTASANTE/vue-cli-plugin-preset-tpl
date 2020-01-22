@@ -28,7 +28,7 @@ export default {};
 <style lang="scss">
 @import 'bootstrap/scss/bootstrap.scss';
 </style>
-<% } else { %><template>
+<% } else { -%><template>
   <div id="app">
     <div id="nav">
       <router-link to="/">Home</router-link> |
@@ -57,4 +57,4 @@ export default {};
   }
 }
 </style>
-<% } %>
+<% } -%>
