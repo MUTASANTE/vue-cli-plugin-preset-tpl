@@ -68,14 +68,6 @@ module.exports = (api, options, rootOptions) => {
     });
   }
 
-  const filesToDelete = ['src/App.vue', 'src/conf.js', 'src/main.js', 'src/router.js', 'src/store.js'];
-
-  api.render(files => {
-    Object.keys(files)
-      .filter(path => filesToDelete.indexOf(path) > -1)
-      .forEach(path => delete files[path]);
-  });
-
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useBootstrap: options.bootstrap,
@@ -89,6 +81,12 @@ module.exports = (api, options, rootOptions) => {
 // https://cli.vuejs.org/migrating-from-v3/#the-global-vue-cli
 module.exports.hooks = api => {
   api.afterInvoke(() => {
+    // XXX: workaround problem with App.vue not being updated.
+    let mainTemplateVuePath = api.resolve('./src/App.tmpl.vue');
+    let mainVuePath = mainTemplateVuePath.replace(/App\.tmpl\.vue$/, 'App.vue');
+    fs.unlinkSync(mainVuePath);
+    fs.renameSync(mainTemplateVuePath, mainVuePath);
+
     if (directoryExits(api.resolve('./src/store'))) {
       lignator.remove(api.resolve('./src/store'));
     }
