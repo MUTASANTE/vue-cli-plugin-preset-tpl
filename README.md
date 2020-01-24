@@ -15,6 +15,7 @@ vue create my-project --preset MUTASANTE/vue-cli-preset
 - [bootstrap](https://github.com/twbs/bootstrap)
 - [popper.js (only when bootstrap is installed)](https://github.com/FezVrasta/popper.js/)
 - [vue-fontawesome](https://github.com/FortAwesome/vue-fontawesome)
+- [VeeValidate](https://github.com/logaretm/vee-validate)
 
 <hr>
 
