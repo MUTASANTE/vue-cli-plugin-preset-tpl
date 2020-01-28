@@ -1,5 +1,7 @@
 const path = require('path');
-const dirPath = path.resolve(process.cwd(), './PHPConfiguration');
+const dirPath = process.env.NPM_CONFIG_USERCONFIG
+  ? path.resolve(process.env.NPM_CONFIG_USERCONFIG, './../../PHPConfiguration')
+  : path.resolve(process.cwd(), './PHPConfiguration');
 
 module.exports = [
   {
