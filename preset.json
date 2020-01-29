@@ -4,13 +4,12 @@
     "@vue/cli-plugin-babel": {},
     "@vue/cli-plugin-eslint": {
       "config": "prettier",
-      "lintOn": [
-    "save"
-      ]
+      "lintOn": ["save"]
+    },
+    "@vue/cli-plugin-router": {
+      "historyMode": true
     }
   },
-  "router": true,
-  "routerHistoryMode": true,
   "vuex": true,
   "cssPreprocessor": "dart-sass"
 }

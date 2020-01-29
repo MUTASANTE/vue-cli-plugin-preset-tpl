@@ -81,11 +81,14 @@ module.exports = (api, options, rootOptions) => {
 // https://cli.vuejs.org/migrating-from-v3/#the-global-vue-cli
 module.exports.hooks = api => {
   api.afterInvoke(() => {
-    // XXX: workaround problem with App.vue not being updated.
-    let mainTemplateVuePath = api.resolve('./src/App.tmpl.vue');
-    let mainVuePath = mainTemplateVuePath.replace(/App\.tmpl\.vue$/, 'App.vue');
-    fs.unlinkSync(mainVuePath);
-    fs.renameSync(mainTemplateVuePath, mainVuePath);
+    // Problem with App.vue not being updated correctly.
+    // Workaround at https://github.com/vuejs/vue-cli/issues/5106#issuecomment-579509196 :
+    // vue-router must be added to the "plugins" section of the preset.json file.
+    //
+    //let mainTemplateVuePath = api.resolve('./src/App.tmpl.vue');
+    //let mainVuePath = mainTemplateVuePath.replace(/App\.tmpl\.vue$/, 'App.vue');
+    //fs.unlinkSync(mainVuePath);
+    //fs.renameSync(mainTemplateVuePath, mainVuePath);
 
     if (directoryExits(api.resolve('./src/store'))) {
       lignator.remove(api.resolve('./src/store'));
