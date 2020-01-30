@@ -1,4 +1,4 @@
-# Vue CLI 3 & 4 Preset
+# Vue CLI 4 Preset
 
 ### 🎉 Installation
 
@@ -20,3 +20,7 @@ vue create my-project --preset MUTASANTE/vue-cli-preset
 <hr>
 
 [Vue CLI Preset Development Guide](https://cli.vuejs.org/dev-guide/plugin-dev.html#generator)
+
+<hr>
+
+Our not maintained anymore Vue CLI 3 Preset can be found in branch [vue-cli-3](https://github.com/MUTASANTE/vue-cli-plugin-preset-tpl/tree/vue-cli-3)
