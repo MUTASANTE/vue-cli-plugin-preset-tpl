@@ -50,7 +50,15 @@
     "editor.codeActionsOnSave": {
         // Will call eslint after "editor.formatOnSave" is done.
         // Eslint can itself call Prettier (see .eslintrc.js), so be careful
-        // to not conflict with Vetur's prettier rules used by "editor.formatOnSave.
+        // to not conflict with Vetur's prettier rules used by "editor.formatOnSave".
         "source.fixAll.eslint": true
+    },
+    // XXX: Visual Studio Code asks to choose between multiple formatters,
+    // but are following ones the right ones to choose?
+    "[javascript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
     }
 }
