@@ -27,6 +27,8 @@ export default {};
 
 <style lang="scss">
 @import 'bootstrap/scss/bootstrap.scss';
+<% if (useBootstrapVue) { %>@import 'bootstrap-vue/src/index.scss';
+<% } -%>
 </style>
 <% } else { -%><template>
   <div id="app">

@@ -32,18 +32,26 @@ module.exports = (api, options, rootOptions) => {
     }
   });
 
-  if (options.bootstrap && options.popperjs) {
+  if (options.bootstrap && !options.bootstrapVue) {
+    if (options.popperjs) {
+      api.extendPackage({
+        dependencies: {
+          'popper.js': '*'
+        }
+      });
+    }
     api.extendPackage({
       dependencies: {
-        'popper.js': '*'
+        bootstrap: '*'
       }
     });
   }
 
-  if (options.bootstrap) {
+  if (options.bootstrap && options.bootstrapVue) {
     api.extendPackage({
       dependencies: {
-        bootstrap: '^4.0'
+        bootstrap: '*',
+        'bootstrap-vue': '*'
       }
     });
   }
@@ -71,6 +79,7 @@ module.exports = (api, options, rootOptions) => {
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useBootstrap: options.bootstrap,
+    useBootstrapVue: options.bootstrapVue,
     useFontawesome: options.fontawesome,
     useVeevalidate: options.veevalidate,
     globalScriptsPath: options.globalScriptsPath

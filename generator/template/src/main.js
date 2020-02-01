@@ -10,14 +10,23 @@ import {
   ValidationObserver
 } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
+<% } -%><% if (useFontawesome) { -%>
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+<% } -%><% if (useBootstrapVue) { -%>
+import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
+
+Vue.use(BootstrapVue);
+Vue.use(IconsPlugin);
+<% } -%><% if (useVeevalidate) { -%>
 
 // import all known VeeValidate rules
 Object.keys(rules).forEach(rule => {
   veeExtend(rule, rules[rule]);
 });
-
 Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
+<% } -%><% if (useFontawesome) { -%>
+Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 <% } -%>
 
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
