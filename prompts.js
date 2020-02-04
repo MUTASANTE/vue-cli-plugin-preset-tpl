@@ -5,6 +5,12 @@ const dirPath = process.env.NPM_CONFIG_USERCONFIG
 
 module.exports = [
   {
+    name: 'axios',
+    type: 'confirm',
+    message: 'Use axios? ',
+    default: true
+  },
+  {
     name: 'bootstrap',
     type: 'confirm',
     message: 'Use Bootstrap? ',
@@ -36,7 +42,7 @@ module.exports = [
     name: 'veevalidate',
     type: 'confirm',
     message: 'Use VeeValidate? ',
-    default: false
+    default: true
   },
   {
     name: 'globalScriptsPath',

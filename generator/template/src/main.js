@@ -3,6 +3,9 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import { init } from './conf';
+<% if (useAxios) { -%>
+import axios from 'axios';
+<% } -%>
 <% if (useVeevalidate) { -%>
 import {
   extend as veeExtend,
@@ -27,6 +30,30 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 <% } -%><% if (useFontawesome) { -%>
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
+<% } -%><% if (useAxios) { -%>
+
+// Support Ajax-like requests. Note that adding the X-Requested-With header
+// makes the request "unsafe" (as defined by CORS), and will trigger a preflight request,
+// which may not always be desirable.
+// See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests
+axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+//axios.defaults.withCredentials = true;
+if (process.env.NODE_ENV !== 'production' && console) {
+  const fn = [
+    function(r) {
+      // Log valid request/response
+      console.log(r);
+      return r;
+    },
+    function(error) {
+      // Log request/response error
+      console.log(error);
+      return Promise.reject(error);
+    }
+  ];
+  axios.interceptors.request.use(...fn);
+  axios.interceptors.response.use(...fn);
+}
 <% } -%>
 
 Vue.config.productionTip = process.env.NODE_ENV === 'production';

@@ -27,10 +27,17 @@ module.exports = (api, options, rootOptions) => {
   api.extendPackage({
     dependencies: {
       'vue-resource': '*',
-      axios: '*',
       jquery: '*'
     }
   });
+
+  if (options.axios) {
+    api.extendPackage({
+      dependencies: {
+        axios: '*'
+      }
+    });
+  }
 
   if (options.bootstrap && !options.bootstrapVue) {
     if (options.popperjs) {
@@ -78,6 +85,7 @@ module.exports = (api, options, rootOptions) => {
 
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
+    useAxios: options.axios,
     useBootstrap: options.bootstrap,
     useBootstrapVue: options.bootstrapVue,
     useFontawesome: options.fontawesome,
