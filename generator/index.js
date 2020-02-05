@@ -83,6 +83,14 @@ module.exports = (api, options, rootOptions) => {
     });
   }
 
+  if (options.vueLoadingOverlay) {
+    api.extendPackage({
+      dependencies: {
+        'vue-loading-overlay': '*'
+      }
+    });
+  }
+
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useAxios: options.axios,
@@ -90,6 +98,7 @@ module.exports = (api, options, rootOptions) => {
     useBootstrapVue: options.bootstrapVue,
     useFontawesome: options.fontawesome,
     useVeevalidate: options.veevalidate,
+    useVueLoadingOverlay: options.vueLoadingOverlay,
     globalScriptsPath: options.globalScriptsPath
   });
 };

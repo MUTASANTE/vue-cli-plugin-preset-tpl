@@ -28,6 +28,8 @@ export default {};
 <style lang="scss">
 @import 'bootstrap/scss/bootstrap.scss';
 <% if (useBootstrapVue) { %>@import 'bootstrap-vue/src/index.scss';
+<% } -%><% if (useVueLoadingOverlay) { -%>
+@import '~vue-loading-overlay/dist/vue-loading.css';
 <% } -%>
 </style>
 <% } else { -%><template>
@@ -41,6 +43,9 @@ export default {};
 </template>
 
 <style lang="scss">
+<% if (useVueLoadingOverlay) { -%>
+@import '~vue-loading-overlay/dist/vue-loading.css';
+<% } -%>
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

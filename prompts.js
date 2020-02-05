@@ -45,6 +45,12 @@ module.exports = [
     default: true
   },
   {
+    name: 'vueLoadingOverlay',
+    type: 'confirm',
+    message: 'Use vue-loading-overlay? ',
+    default: true
+  },
+  {
     name: 'globalScriptsPath',
     type: 'input',
     message: 'Path to the global NodeJS, NPM and Vuejs scripts ',

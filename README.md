@@ -18,6 +18,7 @@ vue create my-project --preset MUTASANTE/vue-cli-preset
 - [BootstrapVue (as an alternative choice to pure Bootstrap)](https://github.com/bootstrap-vue/bootstrap-vue)
 - [vue-fontawesome](https://github.com/FortAwesome/vue-fontawesome)
 - [VeeValidate](https://github.com/logaretm/vee-validate)
+- [vue-loading-overlay](https://github.com/ankurk91/vue-loading-overlay)
 
 <hr>
 

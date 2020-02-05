@@ -68,12 +68,14 @@ export const conf = {
  * - correction de l'erreur jQuery "Cannot read property 'fn' of undefined in VueJS"
  * - utilisation du plugin pagekit/vue-resource (pour les requêtes serveur asynchrones)
  * @param {*} Vue composant Vue qui sera "mount-é" et affiché
+ * @param {*} axios objet axios qui sera utilisé
  * @param {boolean} autoloadComponents ajout/maj de l'autoloading de composants Vuejs ou non
  * @param {boolean} addMethodErrorsHandlerMixin ajout du Mixin "handleMethodErrorsMixin"
  * au composant Vue pour une gestion plus poussée des erreurs et des exceptions (EXPERIMENTAL)
  */
 export function init(
   Vue,
+  axios = null,
   autoloadComponents = true,
   addMethodErrorsHandlerMixin = false
 ) {
@@ -125,6 +127,48 @@ export function init(
         return false;
       };
     }
+  }
+
+  if (process.env.NODE_ENV === 'development' && axios && console) {
+    axios.interceptors.request.use(
+      function(config) {
+        // https://stackoverflow.com/a/51279029/2332350
+        config.__metadata__ = {
+          startTime: new Date(),
+          endTime: null
+        };
+        // Log valid request/response
+        console.log(config);
+        return config;
+      },
+      function(error) {
+        // Log request/response error
+        console.log(error);
+        return Promise.reject(error);
+      }
+    );
+    axios.interceptors.response.use(
+      function(response) {
+        if (response.config && response.config.__metadata__) {
+          let m = response.config.__metadata__;
+          m.endTime = new Date();
+          response.__completedIn__ = (m.endTime - m.startTime) / 1000;
+        }
+        // Log valid request/response
+        console.log(response);
+        return response;
+      },
+      function(error) {
+        if (error.config && error.config.__metadata__) {
+          let m = error.config.__metadata__;
+          m.endTime = new Date();
+          error.__completedIn__ = (m.endTime - m.startTime) / 1000;
+        }
+        // Log request/response error
+        console.log(error);
+        return Promise.reject(error);
+      }
+    );
   }
 
   // https://stackoverflow.com/questions/52548556/cannot-read-property-fn-of-undefined-in-vuejs

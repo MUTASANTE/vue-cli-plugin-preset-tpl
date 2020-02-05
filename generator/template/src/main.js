@@ -13,6 +13,8 @@ import {
   ValidationObserver
 } from 'vee-validate';
 import * as rules from 'vee-validate/dist/rules';
+<% } -%><% if (useVueLoadingOverlay) { -%>
+import Loading from 'vue-loading-overlay';
 <% } -%><% if (useFontawesome) { -%>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 <% } -%><% if (useBootstrapVue) { -%>
@@ -20,6 +22,8 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+<% } -%><% if (useVueLoadingOverlay) { -%>
+Vue.use(Loading);
 <% } -%><% if (useVeevalidate) { -%>
 
 // import all known VeeValidate rules
@@ -30,6 +34,8 @@ Vue.component('ValidationProvider', ValidationProvider);
 Vue.component('ValidationObserver', ValidationObserver);
 <% } -%><% if (useFontawesome) { -%>
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
+<% } -%><% if (useVueLoadingOverlay) { -%>
+Vue.component('Loading', Loading);
 <% } -%><% if (useAxios) { -%>
 
 // Support Ajax-like requests. Note that adding the X-Requested-With header
@@ -58,7 +64,7 @@ if (process.env.NODE_ENV !== 'production' && console) {
 
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
-init(Vue, true);
+init(Vue<% if (useAxios) { -%>, axios<% } -%>);
 
 new Vue({
   router,
