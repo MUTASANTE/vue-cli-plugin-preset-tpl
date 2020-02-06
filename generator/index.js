@@ -31,74 +31,93 @@ module.exports = (api, options, rootOptions) => {
     }
   });
 
-  if (options.axios) {
-    api.extendPackage({
-      dependencies: {
-        axios: '*'
-      }
-    });
+  if (options.installationType == 2) {
+    // These options weren't set, so do it now.
+    options.axios = true;
+    options.bootstrap = true;
+    options.bootstrapVue = true;
+    options.fontawesome = true;
+    options.veevalidate = true;
+    options.vueLoadingOverlay = true;
   }
 
-  if (options.bootstrap && !options.bootstrapVue) {
-    if (options.popperjs) {
+  if (options.installationType != 1) {
+    if (options.installationType == 2 || options.axios) {
       api.extendPackage({
         dependencies: {
-          'popper.js': '*'
+          axios: '*'
         }
       });
     }
-    api.extendPackage({
-      dependencies: {
-        bootstrap: '*'
-      }
-    });
-  }
 
-  if (options.bootstrap && options.bootstrapVue) {
-    api.extendPackage({
-      dependencies: {
-        bootstrap: '*',
-        'bootstrap-vue': '*'
+    if (
+      options.installationType != 2 &&
+      options.bootstrap &&
+      !options.bootstrapVue
+    ) {
+      if (options.popperjs) {
+        api.extendPackage({
+          dependencies: {
+            'popper.js': '*'
+          }
+        });
       }
-    });
-  }
+      api.extendPackage({
+        dependencies: {
+          bootstrap: '*'
+        }
+      });
+    }
 
-  if (options.fontawesome) {
-    api.extendPackage({
-      dependencies: {
-        '@fortawesome/fontawesome-svg-core': '*',
-        '@fortawesome/free-solid-svg-icons': '*',
-        '@fortawesome/vue-fontawesome': '*',
-        '@fortawesome/free-brands-svg-icons': '*',
-        '@fortawesome/free-regular-svg-icons': '*'
-      }
-    });
-  }
+    if (
+      options.installationType == 2 ||
+      (options.bootstrap && options.bootstrapVue)
+    ) {
+      api.extendPackage({
+        dependencies: {
+          bootstrap: '*',
+          'bootstrap-vue': '*'
+        }
+      });
+    }
 
-  if (options.veevalidate) {
-    api.extendPackage({
-      dependencies: {
-        'vee-validate': '*'
-      }
-    });
-  }
+    if (options.installationType == 2 || options.fontawesome) {
+      api.extendPackage({
+        dependencies: {
+          '@fortawesome/fontawesome-svg-core': '*',
+          '@fortawesome/free-solid-svg-icons': '*',
+          '@fortawesome/vue-fontawesome': '*',
+          '@fortawesome/free-brands-svg-icons': '*',
+          '@fortawesome/free-regular-svg-icons': '*'
+        }
+      });
+    }
 
-  if (options.vueLoadingOverlay) {
-    api.extendPackage({
-      dependencies: {
-        'vue-loading-overlay': '*'
-      }
-    });
+    if (options.installationType == 2 || options.veevalidate) {
+      api.extendPackage({
+        dependencies: {
+          'vee-validate': '*'
+        }
+      });
+    }
+
+    if (options.installationType == 2 || options.vueLoadingOverlay) {
+      api.extendPackage({
+        dependencies: {
+          'vue-loading-overlay': '*'
+        }
+      });
+    }
   }
 
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
-    useAxios: options.axios,
-    useBootstrap: options.bootstrap,
-    useBootstrapVue: options.bootstrapVue,
-    useFontawesome: options.fontawesome,
-    useVeevalidate: options.veevalidate,
-    useVueLoadingOverlay: options.vueLoadingOverlay,
+    useAxios: !!options.axios,
+    useBootstrap: !!options.bootstrap,
+    useBootstrapVue: !!options.bootstrapVue,
+    useFontawesome: !!options.fontawesome,
+    useVeevalidate: !!options.veevalidate,
+    useVueLoadingOverlay: !!options.vueLoadingOverlay,
     globalScriptsPath: options.globalScriptsPath
   });
 };

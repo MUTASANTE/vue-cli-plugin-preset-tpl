@@ -17,11 +17,22 @@ import * as rules from 'vee-validate/dist/rules';
 import Loading from 'vue-loading-overlay';
 <% } -%><% if (useFontawesome) { -%>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+//import { library } from '@fortawesome/fontawesome-svg-core';
+//import {
+//  faHome,
+//  faUser,
+//  faUserPlus,
+//  faSignInAlt,
+//  faSignOutAlt
+//} from '@fortawesome/free-solid-svg-icons';
+//library.add(faHome, faUser, faUserPlus, faSignInAlt, faSignOutAlt);
 <% } -%><% if (useBootstrapVue) { -%>
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 
 Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
+<% } -%><% if (useVueLoadingOverlay && !useBootstrapVue) { -%>
+
 <% } -%><% if (useVueLoadingOverlay) { -%>
 Vue.use(Loading);
 <% } -%><% if (useVeevalidate) { -%>
