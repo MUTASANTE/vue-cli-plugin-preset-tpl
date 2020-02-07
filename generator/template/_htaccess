@@ -3,3 +3,11 @@ Require all granted
 
 # Prevent people from looking directly into folders
 Options -Indexes
+
+# Activate URL rewriting
+Options +FollowSymlinks
+RewriteEngine On
+
+# Only grant access to the "dist" directory
+RewriteRule ^dist(/.*)?$ - [END]
+RewriteRule . - [R=403,END]
