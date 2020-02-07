@@ -110,6 +110,13 @@ module.exports = (api, options, rootOptions) => {
     }
   }
 
+  if (!options.globalScriptsPath) {
+    // options.globalScriptsPath is not defined because process.env.ARP_PHP_CONF_71 is defined for current installation.
+    // Since options.globalScriptsPath is only used in DOS command files, let's use the %ARP_PHP_CONF_71% DOS syntax
+    // to make the path truly dynamic.
+    options.globalScriptsPath = '%ARP_PHP_CONF_71%';
+  }
+
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
     useAxios: !!options.axios,

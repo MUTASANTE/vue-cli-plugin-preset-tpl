@@ -76,6 +76,9 @@ module.exports = [
     type: 'input',
     message: 'Path to the global NodeJS, NPM and Vuejs scripts ',
     default: dirPath,
+    // when the DOS variable %ARP_PHP_CONF_71% is defined (and not empty),
+    // make the path truly dynamic by leaving globalScriptsPath unset
+    when: () => !process.env.ARP_PHP_CONF_71,
     validate: input => !!input
   }
 ];
