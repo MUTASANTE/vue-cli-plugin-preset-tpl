@@ -1,5 +1,7 @@
 const path = require('path');
-const dirPath = process.env.NPM_CONFIG_USERCONFIG
+const dirPath = process.env.ARP_PHP_CONF_71
+  ? path.resolve(process.env.ARP_PHP_CONF_71)
+  : process.env.NPM_CONFIG_USERCONFIG
   ? path.resolve(process.env.NPM_CONFIG_USERCONFIG, './../../PHPConfiguration')
   : path.resolve(process.cwd(), './PHPConfiguration');
 
