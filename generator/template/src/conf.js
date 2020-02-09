@@ -80,7 +80,12 @@ export function init(
   addMethodErrorsHandlerMixin = false
 ) {
   // https://github.com/webpack/webpack-dev-server/issues/565
-  if (process.env.NODE_ENV === 'development' && module && module.hot) {
+  if (
+    (process.env.NODE_ENV === 'development' ||
+      process.env.NODE_ENV === 'standalone-dev') &&
+    module &&
+    module.hot
+  ) {
     module.hot.accept(); // already had this init code
 
     module.hot.removeStatusHandler(statusHandler);
@@ -129,7 +134,12 @@ export function init(
     }
   }
 
-  if (process.env.NODE_ENV === 'development' && axios && console) {
+  if (
+    (process.env.NODE_ENV === 'development' ||
+      process.env.NODE_ENV === 'standalone-dev') &&
+    axios &&
+    console
+  ) {
     axios.interceptors.request.use(
       function(config) {
         // https://stackoverflow.com/a/51279029/2332350
@@ -218,7 +228,11 @@ export function init(
           .replace(/\.vue$/, '')
       )
     );
-    if (process.env.NODE_ENV === 'development' && console) {
+    if (
+      (process.env.NODE_ENV === 'development' ||
+        process.env.NODE_ENV === 'standalone-dev') &&
+      console
+    ) {
       console.log(`Autoload ${componentName} depuis "${componentFilePath}"`);
     }
 

@@ -5,12 +5,19 @@
 // mais uniquement ceux de la forme VUE_APP_* seront accessible automatiquement via process.env.VUE_APP_*,
 // les autres variables doivent être chargées "manuellement" dans process.env.* via require('dotenv').config()
 process.env.VUE_APP_ROUTE_MODE =
-  process.env.NODE_ENV === 'standalone' ? 'hash' : 'history';
+  process.env.NODE_ENV === 'standalone' ||
+  process.env.NODE_ENV === 'standalone-dev'
+    ? 'hash'
+    : 'history';
 
 const webpack = require('webpack');
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === 'standalone' ? '.' : '/',
+  publicPath:
+    process.env.NODE_ENV === 'standalone' ||
+    process.env.NODE_ENV === 'standalone-dev'
+      ? '.'
+      : '/',
   configureWebpack: {
     // https://webpack.js.org/configuration/externals/
     // 'nom fichier js': 'variable globale'
