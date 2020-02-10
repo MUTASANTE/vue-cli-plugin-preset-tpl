@@ -148,12 +148,12 @@ export function init(
           endTime: null
         };
         // Log valid request/response
-        console.log(config);
+        console.log(`Request:\n`, config);
         return config;
       },
       function(error) {
         // Log request/response error
-        console.log(error);
+        console.log(`Request error:\n`, error);
         return Promise.reject(error);
       }
     );
@@ -165,7 +165,7 @@ export function init(
           response.__completedIn__ = (m.endTime - m.startTime) / 1000;
         }
         // Log valid request/response
-        console.log(response);
+        console.log(`Response:\n`, response);
         return response;
       },
       function(error) {
@@ -175,7 +175,7 @@ export function init(
           error.__completedIn__ = (m.endTime - m.startTime) / 1000;
         }
         // Log request/response error
-        console.log(error);
+        console.log(`Response error:\n`, error);
         return Promise.reject(error);
       }
     );
