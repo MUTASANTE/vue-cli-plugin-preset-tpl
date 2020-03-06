@@ -9,9 +9,11 @@ import axios from 'axios';
 <% if (useVeevalidate) { -%>
 import {
   extend as veeExtend,
+  localize as veeLocalize,
   ValidationProvider,
   ValidationObserver
 } from 'vee-validate';
+import fr from 'vee-validate/dist/locale/fr.json';
 import * as rules from 'vee-validate/dist/rules';
 <% } -%><% if (useVueLoadingOverlay) { -%>
 import Loading from 'vue-loading-overlay';
@@ -40,6 +42,7 @@ Vue.use(IconsPlugin);
 Vue.use(Loading);
 <% } -%><% if (useVeevalidate) { -%>
 
+veeLocalize('fr', fr);
 // import all known VeeValidate rules
 Object.keys(rules).forEach(rule => {
   veeExtend(rule, rules[rule]);
