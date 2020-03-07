@@ -61,22 +61,6 @@ Vue.component('Loading', Loading);
 // See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //axios.defaults.withCredentials = true;
-if (process.env.NODE_ENV !== 'production' && console) {
-  const fn = [
-    function(r) {
-      // Log valid request/response
-      console.log(r);
-      return r;
-    },
-    function(error) {
-      // Log request/response error
-      console.log(error);
-      return Promise.reject(error);
-    }
-  ];
-  axios.interceptors.request.use(...fn);
-  axios.interceptors.response.use(...fn);
-}
 <% } -%>
 
 Vue.config.productionTip = process.env.NODE_ENV === 'production';

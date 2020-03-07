@@ -134,51 +134,85 @@ export function init(
     }
   }
 
-  if (
-    (process.env.NODE_ENV === 'development' ||
-      process.env.NODE_ENV === 'standalone-dev') &&
-    axios &&
-    console
-  ) {
-    axios.interceptors.request.use(
-      function(config) {
-        // https://stackoverflow.com/a/51279029/2332350
-        config.__metadata__ = {
-          startTime: new Date(),
-          endTime: null
-        };
-        // Log valid request/response
-        console.log(`Request:\n`, config);
-        return config;
-      },
-      function(error) {
-        // Log request/response error
-        console.log(`Request error:\n`, error);
-        return Promise.reject(error);
-      }
-    );
+  if (axios) {
     axios.interceptors.response.use(
       function(response) {
-        if (response.config && response.config.__metadata__) {
-          let m = response.config.__metadata__;
-          m.endTime = new Date();
-          response.__completedIn__ = (m.endTime - m.startTime) / 1000;
-        }
-        // Log valid request/response
-        console.log(`Response:\n`, response);
         return response;
       },
       function(error) {
-        if (error.config && error.config.__metadata__) {
-          let m = error.config.__metadata__;
-          m.endTime = new Date();
-          error.__completedIn__ = (m.endTime - m.startTime) / 1000;
+        var matches;
+        // https://github.com/axios/axios/blob/master/dist/axios.js
+        // On traduit en français les messages d'erreur d'Axios connus :
+        if (error.message === 'Request aborted') {
+          error.message = 'La requête a été interrompue';
+        } else if (error.message === 'Network Error') {
+          error.message = 'Service indisponible (problème de réseau)';
+        } else if (
+          error.message &&
+          (matches = /^Request failed with status code ([0-9]+)$/g.exec(
+            error.message.toString()
+          )) &&
+          matches.length == 2
+        ) {
+          error.message = `La requête a échouée avec le code statut ${matches[1]}`;
+        } else if (
+          error.message &&
+          (matches = /^timeout of ([0-9]+)ms exceeded$/g.exec(
+            error.message.toString()
+          )) &&
+          matches.length == 2
+        ) {
+          error.message = `Délai de ${matches[1]} ms dépassé`;
         }
-        // Log request/response error
-        console.log(`Response error:\n`, error);
         return Promise.reject(error);
       }
     );
+
+    if (
+      (process.env.NODE_ENV === 'development' ||
+        process.env.NODE_ENV === 'standalone-dev') &&
+      console
+    ) {
+      axios.interceptors.request.use(
+        function(config) {
+          // https://stackoverflow.com/a/51279029/2332350
+          config.__metadata__ = {
+            startTime: new Date(),
+            endTime: null
+          };
+          // Log valid request/response
+          console.log(`Request:\n`, config);
+          return config;
+        },
+        function(error) {
+          // Log request/response error
+          console.log(`Request error:\n`, error);
+          return Promise.reject(error);
+        }
+      );
+      axios.interceptors.response.use(
+        function(response) {
+          if (response.config && response.config.__metadata__) {
+            let m = response.config.__metadata__;
+            m.endTime = new Date();
+            response.__completedIn__ = (m.endTime - m.startTime) / 1000;
+          }
+          // Log valid request/response
+          console.log(`Response:\n`, response);
+          return response;
+        },
+        function(error) {
+          if (error.config && error.config.__metadata__) {
+            let m = error.config.__metadata__;
+            m.endTime = new Date();
+            error.__completedIn__ = (m.endTime - m.startTime) / 1000;
+          }
+          // Log request/response error
+          console.log(`Response error:\n`, error);
+          return Promise.reject(error);
+        }
+      );
+    }
   }
 
   // https://stackoverflow.com/questions/52548556/cannot-read-property-fn-of-undefined-in-vuejs
