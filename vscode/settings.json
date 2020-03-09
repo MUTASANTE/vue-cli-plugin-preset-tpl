@@ -34,7 +34,7 @@
     "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
     "terminal.integrated.shellArgs.windows": [
         "/K",
-        "E:\\regroup\\git\\PHPConfiguration\\nodevars.bat"
+        "E:\\regroup\\git\\PHPConfiguration\\conf-cordova.cmd"
     ],
     "auto-close-tag.fullMode": true,
     "auto-close-tag.SublimeText3Mode": true,
