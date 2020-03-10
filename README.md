@@ -3,7 +3,7 @@
 ### 🎉 Installation
 
 ```bash
-vue create my-project --preset MUTASANTE/vue-cli-preset
+vue create my-project --preset MUTASANTE/vue-cli-plugin-preset-tpl
 ```
 
 ### 🔌 Plugins
