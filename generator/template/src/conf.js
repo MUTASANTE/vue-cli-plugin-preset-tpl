@@ -142,6 +142,7 @@ export function init(
       function(error) {
         var matches;
         // https://github.com/axios/axios/blob/master/dist/axios.js
+        // TODO : utiliser vue-i18n et vue-cli-plugin-i18n ?
         // On traduit en français les messages d'erreur d'Axios connus :
         if (error.message === 'Request aborted') {
           error.message = 'La requête a été interrompue';
