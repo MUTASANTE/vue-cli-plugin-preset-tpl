@@ -2,3 +2,5 @@
 # For example, NODE_ENV will be set to "production" in production mode,
 # "test" in test mode, and defaults to "development" otherwise.
 NODE_ENV=standalone
+
+VUE_APP_DEBUG_MODE=false

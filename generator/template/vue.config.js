@@ -1,23 +1,7 @@
-// https://cli.vuejs.org/guide/mode-and-env.html#modes
-// https://github.com/motdotla/dotenv#rules
-// Les variables d'environnement définis ici *doivent* être de la forme process.env.VUE_APP_*
-// Les variables d'environnement (de n'importe quel format) peuvent être stockées dans des fichiers .env*
-// mais uniquement ceux de la forme VUE_APP_* seront accessible automatiquement via process.env.VUE_APP_*,
-// les autres variables doivent être chargées "manuellement" dans process.env.* via require('dotenv').config()
-process.env.VUE_APP_ROUTE_MODE =
-  process.env.NODE_ENV === 'standalone' ||
-  process.env.NODE_ENV === 'standalone-dev'
-    ? 'hash'
-    : 'history';
-
 const webpack = require('webpack');
 
 module.exports = {
-  publicPath:
-    process.env.NODE_ENV === 'standalone' ||
-    process.env.NODE_ENV === 'standalone-dev'
-      ? '.'
-      : '/',
+  publicPath: process.env.VUE_APP_PUBLIC_PATH,
   configureWebpack: {
     // https://webpack.js.org/configuration/externals/
     // 'nom fichier js': 'variable globale'
