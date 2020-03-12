@@ -3,4 +3,4 @@
 # "test" in test mode, and defaults to "development" otherwise.
 NODE_ENV=standalone
 
-VUE_APP_DEBUG_MODE=false
+VUE_APP_DEBUG_MODE=
