@@ -7,4 +7,5 @@
 VUE_APP_ROUTE_MODE=history
 VUE_APP_PUBLIC_PATH=/
 
+# An empty value means "debug mode disabled".
 VUE_APP_DEBUG_MODE=

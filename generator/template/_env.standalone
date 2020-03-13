@@ -3,4 +3,5 @@
 # "test" in test mode, and defaults to "development" otherwise.
 NODE_ENV=standalone
 
+# An empty value means "debug mode disabled".
 VUE_APP_DEBUG_MODE=
