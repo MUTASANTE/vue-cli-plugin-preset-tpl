@@ -23,6 +23,7 @@ ms-vscode.cpptools
 msjsdiag.debugger-for-chrome
 mubaidr.vuejs-extension-pack
 octref.vetur
+pkief.material-icon-theme
 robertoachar.vscode-essentials-snippets
 sburg.vscode-javascript-booster
 sdras.night-owl
