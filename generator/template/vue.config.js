@@ -33,11 +33,25 @@ module.exports = {
       // Pas de "chunk files", tout sera compilé dans un seul fichier (même les bibliothèques "vendor" en "dependencies" de ce projet).
       // Nécessite que VUE_APP_LOAD_MODE utilise le 'sync' loading mode et que tous les fichiers *.vue qui sont chargés
       // de manière asynchrone via () => import(...) se trouvent dans le répertoire src/components pour que src/conf.js
-      // les précharge en réalité déjà de manière synchrone (Webpack sait détecter et gérer cela intelligemment au moment du build).
+      // les précharge (en réalité) déjà de manière synchrone (Webpack sait détecter et gérer cela intelligemment au moment du build).
       // IMPORTANT: le chargement des styles CSS ne fonctionnera plus avec les web components !!!
       //splitChunks: false
     }
   },
+  // XXX : utiliser scss et sass en même temps dans un projet vue-cli semble poser problème à bootstrap ...
+  // XXX : cela ne semble arriver que s'il y a un répertoire "@/sass" qui contienne des fichiers *.scss
+  // "surchargeant" des fichiers de même nom du répertoire "~bootstrap/scss", par exemple "@/sass/variables.scss".
+  // La seule solution (si nécessaire) est donc de forcer la compilation de bootstrap *avant* les
+  // fichiers du répertoire "@/sass".
+  //  css: {
+  //    loaderOptions: {
+  //      scss: {
+  //        // Here we can use the newer SCSS flavor of Sass.
+  //        // Note that there *is* a semicolon at the end of the below line
+  //        prependData: `@import "~bootstrap/scss/bootstrap.scss";`
+  //      }
+  //    }
+  //  },
   filenameHashing: false
   // https://filosophy.org/code/bundling-vue-css-and-js-into-a-single-output-file/
   //css: {
