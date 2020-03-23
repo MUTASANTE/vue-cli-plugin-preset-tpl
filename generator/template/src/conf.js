@@ -234,8 +234,8 @@ export function init(
   // require.context's arguments must be static and not be variables.
   // webpack need to determine at build time (before any of your code runs) which files need to be bundled.
   const componentContext = require.context(
-    // Le chemin relatif du dossier composants
-    './components',
+    // Le chemin relatif (au dossier courant) du dossier composants (ou "@/..." pour les chemins relatifs à "src/...")
+    '@/components',
     // Suivre ou non les sous-dossiers
     true,
     // L'expression régulière utilisée pour faire concorder les noms de fichiers de composant de base
@@ -277,5 +277,41 @@ export function init(
     } else {
       Vue.component(componentName, componentConfig);
     }
+  });
+}
+
+// Inspiré de :
+// https://github.com/adamlacombe/Shadow-DOM-inject-styles/blob/master/src/index.ts
+// https://github.com/adamlacombe/Shadow-DOM-inject-styles/issues/4
+function prependStyles(shadowRootElement, styles) {
+  const root = shadowRootElement.shadowRoot;
+  let styleAlreadyAdded = false;
+  const currentStyleTags = Array.from(root.querySelectorAll('style'));
+  currentStyleTags.forEach(element => {
+    if (element.innerHTML === styles) {
+      styleAlreadyAdded = true;
+    }
+  });
+
+  if (styleAlreadyAdded === false) {
+    const newStyleTag = document.createElement('style');
+    newStyleTag.innerHTML = styles;
+    root.prepend(newStyleTag);
+  }
+}
+
+export function copyExternalStylesToShadowDom(wcs) {
+  var styles = Array.from(document.querySelectorAll('head>style')).reverse();
+
+  wcs.forEach(function(currentWC) {
+    styles.forEach(function(currentStyle) {
+      prependStyles(
+        // currentWC.getRootNode({ composed: true }).shadowRoot vaut null (TypeError: root is null)
+        // lorsque currentWC est un élément DANS le shadow DOM, donc le code ci-dessous ne fonctionnera pas :
+        //currentWC.getRootNode({ composed: true }),
+        currentWC,
+        currentStyle.innerHTML
+      );
+    });
   });
 }

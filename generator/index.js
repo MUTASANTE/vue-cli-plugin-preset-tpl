@@ -27,7 +27,8 @@ module.exports = (api, options, rootOptions) => {
   api.extendPackage({
     dependencies: {
       'vue-resource': '*',
-      jquery: '*'
+      jquery: '*',
+      'vue-custom-element': '*'
     }
   });
 

@@ -67,8 +67,19 @@ Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
 init(Vue<% if (useAxios) { -%>, axios<% } -%>);
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app');
+// On instancie la vue uniquement si on ne construit
+// pas de "Web component" (voir WebComponent.vue).
+if (
+  !process.env.VUE_APP_IS_WEB_COMPONENT &&
+  !process.env.VUE_APP_IS_WEB_COMPONENT2
+) {
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app');
+} else if (process.env.VUE_APP_IS_WEB_COMPONENT2) {
+  App.store = store;
+  App.router = router;
+  Vue.customElement('my-custom-element2', App);
+}

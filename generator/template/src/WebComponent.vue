@@ -5,33 +5,31 @@
 <script>
 /**
  * Compilation :
+ * npx vue-cli-service build --target wc --name my-custom-element ./src/WebComponent.vue --mode webcomponent
+ * ou (mais attention, pas de possibilité d'ajouter un paramètre "mode", ce sera automatiquement le mode "production" !)
  * vue build --target wc --name my-custom-element ./src/WebComponent.vue
- * ou
- * npx vue-cli-service build --target wc --name my-custom-element ./src/WebComponent.vue
+ *
+ * Utilisation : <my-custom-element id="my-element-id"></my-custom-element>
  */
 
-import Vue from 'vue';
+import './main';
+import { copyExternalStylesToShadowDom } from './conf';
 import App from './App.vue';
 import router from './router';
 import store from './store';
-import { init } from './conf';
-
-Vue.config.productionTip = process.env.NODE_ENV === 'production';
-
-init(Vue, true);
 
 export default {
   components: {
     App
   },
+  props: {
+    id: { type: String, required: true }
+  },
   router,
   store,
   mounted() {
-    // XXX : est-ce utile ?
-    // https://github.com/vuejs/vue-web-component-wrapper/issues/19#issuecomment-531861202
-    router.push('/').catch(err => {
-      throw new Error(`Problem handling something: ${err}.`);
-    });
+    let el = document.getElementById(this.id);
+    if (el) copyExternalStylesToShadowDom([el]);
   }
 };
 </script>

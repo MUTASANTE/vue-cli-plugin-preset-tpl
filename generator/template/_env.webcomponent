@@ -1,0 +1,12 @@
+# npx vue-cli-service build --target wc --name my-custom-element ./src/WebComponent.vue --mode webcomponent
+
+# XXX : la seule valeur qui fonctionne correctement pour les Web Components
+# est "production", sinon on obtient ce genre d'erreurs (non fatales) dans les navigateurs Web :
+# Erreur dans les liens source : Error: NetworkError when attempting to fetch resource.
+# URL de la ressource : webpack:///./node_modules/v-calendar/lib/v-calendar.umd.min.js?
+# URL du lien source : popper.js.map
+# Doit-on simplement activer "sourceMap" pour le mode "development" ?
+# https://github.com/victorhramos/vuew-shadowdom/blob/master/webpack.config.js
+NODE_ENV=production
+
+VUE_APP_IS_WEB_COMPONENT=1
