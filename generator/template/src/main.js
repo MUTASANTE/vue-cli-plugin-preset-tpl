@@ -3,6 +3,7 @@ import App from './App.vue';
 import router from './router';
 import store from './store';
 import { init } from './conf';
+import vueCustomElement from 'vue-custom-element';
 <% if (useAxios) { -%>
 import axios from 'axios';
 <% } -%>
@@ -53,7 +54,9 @@ Vue.component('ValidationObserver', ValidationObserver);
 Vue.component('FontAwesomeIcon', FontAwesomeIcon);
 <% } -%><% if (useVueLoadingOverlay) { -%>
 Vue.component('Loading', Loading);
-<% } -%><% if (useAxios) { -%>
+<% } -%>
+Vue.use(vueCustomElement);
+<% if (useAxios) { -%>
 
 // Support Ajax-like requests. Note that adding the X-Requested-With header
 // makes the request "unsafe" (as defined by CORS), and will trigger a preflight request,
