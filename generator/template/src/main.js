@@ -84,5 +84,5 @@ if (
 } else if (process.env.VUE_APP_IS_WEB_COMPONENT2) {
   App.store = store;
   App.router = router;
-  Vue.customElement('my-custom-element2', App);
+  Vue.customElement(process.env.VUE_APP_WEB_COMPONENT_NAME, App);
 }
