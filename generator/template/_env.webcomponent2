@@ -1,3 +1,6 @@
 NODE_ENV=production
 
+# A non-empty value means "debug mode enabled".
+VUE_APP_DEBUG_MODE=
+
 VUE_APP_IS_WEB_COMPONENT2=1
