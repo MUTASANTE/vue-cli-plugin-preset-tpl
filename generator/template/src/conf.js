@@ -130,39 +130,34 @@ export function init(
   }
 
   if (axios) {
-    axios.interceptors.response.use(
-      function(response) {
-        return response;
-      },
-      function(error) {
-        var matches;
-        // https://github.com/axios/axios/blob/master/dist/axios.js
-        // TODO : utiliser vue-i18n et vue-cli-plugin-i18n ?
-        // On traduit en français les messages d'erreur d'Axios connus :
-        if (error.message === 'Request aborted') {
-          error.message = 'La requête a été interrompue';
-        } else if (error.message === 'Network Error') {
-          error.message = 'Service indisponible (problème de réseau)';
-        } else if (
-          error.message &&
-          (matches = /^Request failed with status code ([0-9]+)$/g.exec(
-            error.message.toString()
-          )) &&
-          matches.length == 2
-        ) {
-          error.message = `La requête a échouée avec le code statut ${matches[1]}`;
-        } else if (
-          error.message &&
-          (matches = /^timeout of ([0-9]+)ms exceeded$/g.exec(
-            error.message.toString()
-          )) &&
-          matches.length == 2
-        ) {
-          error.message = `Délai de ${matches[1]} ms dépassé`;
-        }
-        return Promise.reject(error);
+    axios.interceptors.response.use(undefined, function(error) {
+      var matches;
+      // https://github.com/axios/axios/blob/master/dist/axios.js
+      // TODO : utiliser vue-i18n et vue-cli-plugin-i18n ?
+      // On traduit en français les messages d'erreur d'Axios connus :
+      if (error.message === 'Request aborted') {
+        error.message = 'La requête a été interrompue';
+      } else if (error.message === 'Network Error') {
+        error.message = 'Service indisponible (problème de réseau)';
+      } else if (
+        error.message &&
+        (matches = /^Request failed with status code ([0-9]+)$/g.exec(
+          error.message.toString()
+        )) &&
+        matches.length == 2
+      ) {
+        error.message = `La requête a échouée avec le code statut ${matches[1]}`;
+      } else if (
+        error.message &&
+        (matches = /^timeout of ([0-9]+)ms exceeded$/g.exec(
+          error.message.toString()
+        )) &&
+        matches.length == 2
+      ) {
+        error.message = `Délai de ${matches[1]} ms dépassé`;
       }
-    );
+      return Promise.reject(error);
+    });
 
     if (process.env.VUE_APP_DEBUG_MODE && console) {
       axios.interceptors.request.use(
