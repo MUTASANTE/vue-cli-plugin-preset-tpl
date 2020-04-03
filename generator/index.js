@@ -29,6 +29,9 @@ module.exports = (api, options, rootOptions) => {
       'vue-resource': '*',
       jquery: '*',
       'vue-custom-element': '*'
+    },
+    devDependencies: {
+      'webpack-bundle-analyzer': '*'
     }
   });
 

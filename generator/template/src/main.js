@@ -21,17 +21,9 @@ import Loading from 'vue-loading-overlay';
 <% } -%><% if (useFontawesome) { -%>
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
 //import { library } from '@fortawesome/fontawesome-svg-core';
-//import * as solidIcons from '@fortawesome/free-solid-svg-icons';
-//import * as regularIcons from '@fortawesome/free-regular-svg-icons';
-//library.add(
-//  solidIcons.faHome,
-//  solidIcons.faUser,
-//  solidIcons.faUserPlus,
-//  solidIcons.faSignInAlt,
-//  solidIcons.faSignOutAlt,
-//  solidIcons.faCog,
-//  solidIcons.faAddressCard
-//);
+//import { fas } from '@fortawesome/free-solid-svg-icons';
+//import { far } from '@fortawesome/free-regular-svg-icons';
+//library.add(fas, far);
 <% } -%><% if (useBootstrapVue) { -%>
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue';
 

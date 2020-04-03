@@ -1,4 +1,6 @@
 const webpack = require('webpack');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
@@ -17,6 +19,12 @@ module.exports = {
         // webpack need to determine at build time (before any of your code runs) which files need to be bundled.
         // Valeurs admises : 'lazy' ou 'sync'
         VUE_APP_LOAD_MODE: JSON.stringify('lazy')
+      }),
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        reportFilename: 'BundleAnalyzer.html',
+        openAnalyzer: false,
+        generateStatsFile: false
       })
     ],
     resolve: {
