@@ -22,7 +22,7 @@ module.exports = {
       }),
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
-        reportFilename: 'BundleAnalyzer.html',
+        reportFilename: 'bundle-analyzer-' + process.env.NODE_ENV + '.html',
         openAnalyzer: false,
         generateStatsFile: false
       })
