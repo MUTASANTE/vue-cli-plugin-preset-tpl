@@ -3,51 +3,7 @@ import camelCase from 'lodash/camelCase';
 import jQuery from 'jquery';
 
 const statusHandler = status => {
-  if (status === 'prepare') console.clear();
-};
-
-// https://markeev.com/posts/vue-error-handling/
-// handle errors same way as Vue.js handles them
-function handleError(error, vm, info) {
-  let cur = vm,
-    nbHooks = 0;
-  while ((cur = cur.$parent)) {
-    var hooks = cur.$options.errorCaptured || [];
-    for (let hook of hooks) {
-      nbHooks++;
-      if (hook.call(cur, error, vm, info) === false) break;
-    }
-  }
-  // fallback
-  if (!nbHooks && window && window.onerror) {
-    window.onerror(info, '', '', '', error);
-  }
-}
-
-// https://markeev.com/posts/vue-error-handling/
-// wrap all methods of component with try-catch
-const handleMethodErrorsMixin = {
-  beforeCreate: function() {
-    var _self = this;
-    var methods = this.$options.methods || {};
-    for (var key in methods) {
-      var original = methods[key];
-      methods[key] = function() {
-        try {
-          var result = original.apply(this, arguments);
-          // let's analyse what is returned from the method
-          if (result instanceof Promise) {
-            // this looks like a Promise. let's handle it's errors:
-            return result.catch(function(err) {
-              handleError(err, _self, key);
-            });
-          } else return result;
-        } catch (e) {
-          handleError(e, _self, key);
-        }
-      };
-    }
-  }
+  if (console && status === 'prepare') console.clear();
 };
 
 // NB : il faut d'abord appeler init() pour initialiser le contenu de "conf" !
@@ -79,6 +35,57 @@ export function init(
   autoloadComponents = true,
   addMethodErrorsHandlerMixin = false
 ) {
+  // https://github.com/vuejs/vue/issues/7653#issuecomment-425163501
+  async function propagateErrorCaptured(component, error, vm) {
+    let continuePropagation = true;
+    const ec = component.$options.errorCaptured;
+    if (ec instanceof Array) {
+      for (let i = 0; i < ec.length; i++) {
+        continuePropagation = ec[i].apply(component, [error, vm]);
+        if (continuePropagation instanceof Promise) {
+          // wait for the promise
+          continuePropagation = await continuePropagation;
+        }
+        if (!continuePropagation) break;
+      }
+    }
+    if (component.$parent && continuePropagation) {
+      return await propagateErrorCaptured(component.$parent, error, vm);
+    } else {
+      return continuePropagation;
+    }
+  }
+
+  // https://github.com/vuejs/vue/issues/7653#issuecomment-425163501
+  // wrap all methods of component with try-catch
+  const handleMethodErrorsMixin = {
+    beforeCreate: function() {
+      const methods = this.$options.methods || {};
+      Object.entries(methods).forEach(([key, method]) => {
+        const wrappedMethod = function(...args) {
+          const result = method.apply(this, args);
+          const resultIsPromise = result instanceof Promise;
+          if (!resultIsPromise) return result;
+          return Promise.resolve(result).catch(async error => {
+            const continuePropagation = await propagateErrorCaptured(
+              this,
+              error,
+              this
+            );
+            if (!continuePropagation) {
+              if (Vue.config.errorHandler) {
+                Vue.config.errorHandler(error, this);
+              } else {
+                return Promise.reject(error);
+              }
+            }
+          });
+        };
+        methods[key] = wrappedMethod;
+      });
+    }
+  };
+
   // https://github.com/webpack/webpack-dev-server/issues/565
   if (process.env.VUE_APP_DEBUG_MODE && module && module.hot) {
     module.hot.accept(); // already had this init code
@@ -92,39 +99,60 @@ export function init(
     }
 
     Vue.config.warnHandler = function(msg, vm, trace) {
-      if (console && !Vue.config.silent) {
-        console.error(`[Vue warn]: ${msg}${trace}`);
+      if (!Vue.config.silent) {
+        if (console) console.error('warnHandler', msg, trace);
+        alert(`ERROR(warnHandler): ${msg}${trace}`);
       }
-      alert(`WARNING: ${msg}${trace}`);
     };
 
     Vue.config.errorHandler = function(msg, vm, trace) {
-      if (console) {
-        console.error(msg);
-      }
-      alert(`ERROR: ${msg}${trace}`);
+      if (console) console.error('errorHandler', msg, trace);
+      alert(`ERROR(errorHandler): ${msg}${trace}`);
     };
+
+    if (window && !window.onunhandledrejection) {
+      window.onunhandledrejection = event => {
+        if (console) console.error('onunhandledrejection', event.reason);
+        alert(`ERROR(onunhandledrejection): ${event.reason}`);
+      };
+    }
 
     if (window && !window.onerror) {
       // https://developer.mozilla.org/fr/docs/Web/API/GlobalEventHandlers/onerror
       // https://www.raymondcamden.com/2019/05/01/handling-errors-in-vuejs
-      // If you define this, and do not use Vue.config.errorHandler, then this will not help.
       window.onerror = function(msg, url, lineNo, columnNo, error) {
+        var message = [
+          'Message: ' + msg,
+          'URL: ' + url,
+          'Line: ' + lineNo,
+          'Column: ' + columnNo,
+          'Error object: ' + JSON.stringify(error)
+        ].join(' - ');
+        if (console) console.error('onerror', message);
         var string = msg.toLowerCase();
         var substring = 'script error';
         if (string.indexOf(substring) > -1) {
-          alert('Script Error: See Browser Console for Detail');
+          alert('ERROR(onerror): Script Error: See Browser Console for Detail');
         } else {
-          var message = [
-            'Message: ' + msg,
-            'URL: ' + url,
-            'Line: ' + lineNo,
-            'Column: ' + columnNo,
-            'Error object: ' + JSON.stringify(error)
-          ].join(' - ');
-          alert(message);
+          alert(`ERROR(onerror): ${message}`);
         }
         return false;
+      };
+    }
+  } else {
+    Vue.config.warnHandler = function(msg, vm, trace) {
+      if (!Vue.config.silent) {
+        if (console) console.error('warnHandler', msg, trace);
+      }
+    };
+
+    Vue.config.errorHandler = function(msg, vm, trace) {
+      if (console) console.error('errorHandler', msg, trace);
+    };
+
+    if (window && !window.onunhandledrejection) {
+      window.onunhandledrejection = event => {
+        if (console) console.error('onunhandledrejection', event.reason);
       };
     }
   }
@@ -159,7 +187,7 @@ export function init(
       return Promise.reject(error);
     });
 
-    if (process.env.VUE_APP_DEBUG_MODE && console) {
+    if (process.env.VUE_APP_DEBUG_MODE) {
       axios.interceptors.request.use(
         function(config) {
           // https://stackoverflow.com/a/51279029/2332350
@@ -167,13 +195,19 @@ export function init(
             startTime: new Date(),
             endTime: null
           };
-          // Log valid request/response
-          console.log(`Request:\n`, config);
+          // Log valid request
+          if (process.env.VUE_APP_DEBUG_MODE && console)
+            console.log(`Axios request:\n`, config);
           return config;
         },
         function(error) {
-          // Log request/response error
-          console.log(`Request error:\n`, error);
+          // On ne loggue pas les données d'authentification.
+          if (
+            !(error.config && error.config.data && error.config.data.password)
+          ) {
+            // Log request error
+            if (console) console.error(`Axios request error:\n`, error);
+          }
           return Promise.reject(error);
         }
       );
@@ -184,8 +218,9 @@ export function init(
             m.endTime = new Date();
             response.__completedIn__ = (m.endTime - m.startTime) / 1000;
           }
-          // Log valid request/response
-          console.log(`Response:\n`, response);
+          // Log valid response
+          if (process.env.VUE_APP_DEBUG_MODE && console)
+            console.log(`Axios response:\n`, response);
           return response;
         },
         function(error) {
@@ -194,11 +229,32 @@ export function init(
             m.endTime = new Date();
             error.__completedIn__ = (m.endTime - m.startTime) / 1000;
           }
-          // Log request/response error
-          console.log(`Response error:\n`, error);
+          // On ne loggue pas les données d'authentification.
+          if (!(error.response && error.response.status === 401)) {
+            // Log response error
+            if (console) console.error(`Axios response error:\n`, error);
+          }
           return Promise.reject(error);
         }
       );
+    } else {
+      // Log request/response errors
+      axios.interceptors.request.use(undefined, function(error) {
+        // On ne loggue pas les données d'authentification.
+        if (
+          !(error.config && error.config.data && error.config.data.password)
+        ) {
+          if (console) console.error(`Axios request error:\n`, error);
+        }
+        return Promise.reject(error);
+      });
+      axios.interceptors.response.use(undefined, function(error) {
+        // On ne loggue pas les données d'authentification.
+        if (!(error.response && error.response.status === 401)) {
+          if (console) console.error(`Axios response error:\n`, error);
+        }
+        return Promise.reject(error);
+      });
     }
   }
 
@@ -235,7 +291,7 @@ export function init(
     true,
     // L'expression régulière utilisée pour faire concorder les noms de fichiers de composant de base
     /\w\d*\.vue$/i,
-    // vue.config.js : 'lazy' ou 'sync'
+    // vue.config.js : 'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once'
     // eslint-disable-next-line
     VUE_APP_LOAD_MODE
   );
@@ -249,9 +305,8 @@ export function init(
           .replace(/\.vue$/, '')
       )
     );
-    if (process.env.VUE_APP_DEBUG_MODE && console) {
+    if (process.env.VUE_APP_DEBUG_MODE && console)
       console.log(`Autoload ${componentName} depuis "${componentFilePath}"`);
-    }
 
     const componentContent = componentContext(componentFilePath);
     // Chercher les options du composant dans `.default`, qui

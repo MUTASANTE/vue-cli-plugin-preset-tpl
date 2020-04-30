@@ -31,6 +31,8 @@ module.exports = (api, options, rootOptions) => {
       'vue-custom-element': '*'
     },
     devDependencies: {
+      sass: '*',
+      'sass-loader': '*',
       'webpack-bundle-analyzer': '*'
     }
   });
