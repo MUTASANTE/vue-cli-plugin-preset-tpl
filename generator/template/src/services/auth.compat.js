@@ -44,6 +44,9 @@ function detectIE() {
 
 // On ne peut pas utiliser l'objet global "localStorage" lorsqu'IE (ou Edge)
 // travaille avec des fichiers locaux accédés via le protocole "file:"
+// https://www.quirksmode.org/js/cookies.html
+// https://stackoverflow.com/questions/7551113/how-do-i-set-path-while-saving-a-cookie-value-in-javascript
+// https://www.tutorialrepublic.com/javascript-tutorial/javascript-cookies.php
 var storageObject =
   !isLocalStorageAvailable() && detectIE()
     ? {
@@ -54,7 +57,13 @@ var storageObject =
             date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
             expires = '; expires=' + date.toUTCString();
           }
-          document.cookie = name + '=' + (value || '') + expires + '; path=/';
+          document.cookie =
+            name +
+            '=' +
+            // check if value is null or undefined:
+            encodeURIComponent(value == null ? '' : value) +
+            expires +
+            '; path=/';
         },
 
         removeItem(name) {
@@ -66,8 +75,14 @@ var storageObject =
           for (var i = 0; i < ca.length; i++) {
             var c = ca[i];
             while (c.charAt(0) == ' ') c = c.substring(1, c.length);
-            if (c.indexOf(nameEQ) == 0)
-              return c.substring(nameEQ.length, c.length);
+            if (c.indexOf(nameEQ) == 0) {
+              try {
+                return decodeURIComponent(c.substring(nameEQ.length, c.length));
+              } catch (e) {
+                if (console) console.error(e);
+                return null;
+              }
+            }
           }
           return null;
         }

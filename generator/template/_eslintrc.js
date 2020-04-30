@@ -18,5 +18,8 @@ module.exports = {
   },
   parserOptions: {
     parser: 'babel-eslint'
+  },
+  globals: {
+    VUE_APP_LOAD_MODE: true
   }
 };

@@ -22,7 +22,12 @@ export const routes = [
       import(/* webpackChunkName: "about" */ './views/About.vue'),
     props: true
   },
-  { path: '*', component: () => import('./components/ComponentNotFound') }
+  {
+    path: '*',
+    // https://webpack.js.org/api/module-methods/#magic-comments
+    component: () =>
+      import(/* webpackMode: "eager" */ './components/ComponentNotFound')
+  }
 ];
 
 // XXX : bug sous Edge !!! A remonter à vue-router ?

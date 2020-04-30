@@ -1,9 +1,19 @@
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
+//const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
+  // https://cli.vuejs.org/guide/webpack.html#chaining-advanced
+  chainWebpack: config => {
+    // https://stackoverflow.com/a/53578028/2332350
+    //enableShadowCss(config);
+    // https://medium.com/@aetherus.zhou/vue-cli-3-performance-optimization-55316dcd491c
+    // https://cli.vuejs.org/guide/html-and-static-assets.html#prefetch
+    config.plugins.delete('prefetch');
+    //config.plugin('CompressionPlugin').use(CompressionPlugin);
+  },
   configureWebpack: {
     // https://webpack.js.org/configuration/externals/
     // 'nom fichier js': 'variable globale'
@@ -17,8 +27,9 @@ module.exports = {
         // Même si pas obligatoire ici, on conserve le format VUE_APP_*
         // require.context's arguments must be static and not be variables.
         // webpack need to determine at build time (before any of your code runs) which files need to be bundled.
-        // Valeurs admises : 'lazy' ou 'sync'
-        VUE_APP_LOAD_MODE: JSON.stringify('lazy')
+        // https://webpack.js.org/api/module-methods/#requirecontext
+        // Valeurs admises : 'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once', default 'sync'
+        VUE_APP_LOAD_MODE: JSON.stringify('eager')
       }),
       new BundleAnalyzerPlugin({
         analyzerMode: 'static',
@@ -33,7 +44,10 @@ module.exports = {
         // Les <template>s des fichiers *.vue sont pré-compilés par vue-cli / vue-loader,
         // dans les autres cas on peut intégrer la version complète (runtime+compiler) de Vuejs
         // dans le "bundle" final en utilisant 'vue/dist/vue.esm.js' :
-        vue$: 'vue/dist/vue.runtime.esm.js'
+        vue$: 'vue/dist/vue.runtime.esm.js',
+        // https://medium.com/js-dojo/how-to-reduce-your-vue-js-bundle-size-with-webpack-3145bf5019b7
+        // Ces entrées sont là pour réduire la taille des builds de production :
+        jquery$: 'jquery/dist/jquery.slim.js'
       }
     },
     optimization: {
@@ -42,6 +56,8 @@ module.exports = {
       // Nécessite que VUE_APP_LOAD_MODE utilise le 'sync' loading mode et que tous les fichiers *.vue qui sont chargés
       // de manière asynchrone via () => import(...) se trouvent dans le répertoire src/components pour que src/conf.js
       // les précharge (en réalité) déjà de manière synchrone (Webpack sait détecter et gérer cela intelligemment au moment du build).
+      // IMPORTANT : ne pas oublier d'utiliser les "import magic-comments" sur les imports dynamiques () => import(...)
+      // ne se trouvant pas dans le répertoire src/components pour que Webpack leur applique également le bon "loading mode".
       // IMPORTANT: le chargement des styles CSS ne fonctionnera plus avec les web components !!!
       //splitChunks: false
     }
@@ -60,9 +76,12 @@ module.exports = {
   //      }
   //    }
   //  },
-  filenameHashing: false
+  filenameHashing: true,
+  // https://cli.vuejs.org/config/#productionsourcemap
+  productionSourceMap: false
   // https://filosophy.org/code/bundling-vue-css-and-js-into-a-single-output-file/
   //css: {
   //  extract: true,
-  //}
+  //},
+  //transpileDependencies: ['vuetify']
 };
