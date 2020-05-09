@@ -1,6 +1,8 @@
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import jQuery from 'jquery';
+import isString from 'lodash/isString';
+import isPlainObject from 'lodash/isPlainObject';
 
 const statusHandler = status => {
   if (console && status === 'prepare') console.clear();
@@ -198,7 +200,7 @@ export function init(
           // Log valid request
           if (process.env.VUE_APP_DEBUG_MODE && console)
             console.log(`Axios request:\n`, config);
-          return config;
+          return Promise.resolve(config);
         },
         function(error) {
           // On ne loggue pas les données d'authentification.
@@ -213,6 +215,23 @@ export function init(
       );
       axios.interceptors.response.use(
         function(response) {
+          // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
+          // à le "parser" sous forme d'objet JSON.
+          // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
+          // https://github.com/axios/axios/issues/811
+          // https://github.com/axios/axios/issues/61#issuecomment-411815115
+          if (!(isPlainObject(response.data) && !isString(response.data))) {
+            if (console)
+              console.error(
+                `Axios response error (cannot parse response data as JSON object):\n`,
+                response
+              );
+            return Promise.reject({
+              config: response.config,
+              message:
+                'Les données du serveur sont invalides. Chargement des données impossible.'
+            });
+          }
           if (response.config && response.config.__metadata__) {
             let m = response.config.__metadata__;
             m.endTime = new Date();
@@ -221,7 +240,7 @@ export function init(
           // Log valid response
           if (process.env.VUE_APP_DEBUG_MODE && console)
             console.log(`Axios response:\n`, response);
-          return response;
+          return Promise.resolve(response);
         },
         function(error) {
           if (error.config && error.config.__metadata__) {
@@ -248,13 +267,35 @@ export function init(
         }
         return Promise.reject(error);
       });
-      axios.interceptors.response.use(undefined, function(error) {
-        // On ne loggue pas les données d'authentification.
-        if (!(error.response && error.response.status === 401)) {
-          if (console) console.error(`Axios response error:\n`, error);
+      axios.interceptors.response.use(
+        response => {
+          // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
+          // à le "parser" sous forme d'objet JSON.
+          // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
+          // https://github.com/axios/axios/issues/811
+          // https://github.com/axios/axios/issues/61#issuecomment-411815115
+          if (!(isPlainObject(response.data) && !isString(response.data))) {
+            if (console)
+              console.error(
+                `Axios response error (cannot parse response data as JSON object):\n`,
+                response
+              );
+            return Promise.reject({
+              config: response.config,
+              message:
+                'Les données du serveur sont invalides. Chargement des données impossible.'
+            });
+          }
+          return Promise.resolve(response);
+        },
+        function(error) {
+          // On ne loggue pas les données d'authentification.
+          if (!(error.response && error.response.status === 401)) {
+            if (console) console.error(`Axios response error:\n`, error);
+          }
+          return Promise.reject(error);
         }
-        return Promise.reject(error);
-      });
+      );
     }
   }
 
