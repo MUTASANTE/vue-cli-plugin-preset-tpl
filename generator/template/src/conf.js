@@ -1,8 +1,6 @@
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
 import jQuery from 'jquery';
-import isString from 'lodash/isString';
-import isPlainObject from 'lodash/isPlainObject';
 
 const statusHandler = status => {
   if (console && status === 'prepare') console.clear();
@@ -220,7 +218,7 @@ export function init(
           // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
           // https://github.com/axios/axios/issues/811
           // https://github.com/axios/axios/issues/61#issuecomment-411815115
-          if (!(isPlainObject(response.data) && !isString(response.data))) {
+          if (typeof response.data === 'string') {
             if (console)
               console.error(
                 `Axios response error (cannot parse response data as JSON object):\n`,
@@ -274,7 +272,7 @@ export function init(
           // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
           // https://github.com/axios/axios/issues/811
           // https://github.com/axios/axios/issues/61#issuecomment-411815115
-          if (!(isPlainObject(response.data) && !isString(response.data))) {
+          if (typeof response.data === 'string') {
             if (console)
               console.error(
                 `Axios response error (cannot parse response data as JSON object):\n`,
