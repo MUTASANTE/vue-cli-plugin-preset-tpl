@@ -28,7 +28,7 @@ export default {
   router,
   store,
   mounted() {
-    let el = document.getElementById(this.id);
+    const el = document.getElementById(this.id);
     if (el) copyExternalStylesToShadowDom([el]);
   }
 };

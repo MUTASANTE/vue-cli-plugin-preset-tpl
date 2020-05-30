@@ -37,7 +37,7 @@ export function init(
 ) {
   // https://github.com/vuejs/vue/issues/7653#issuecomment-425163501
   async function propagateErrorCaptured(component, error, vm) {
-    let continuePropagation = true;
+    var continuePropagation = true;
     const ec = component.$options.errorCaptured;
     if (ec instanceof Array) {
       for (let i = 0; i < ec.length; i++) {
@@ -121,7 +121,7 @@ export function init(
       // https://developer.mozilla.org/fr/docs/Web/API/GlobalEventHandlers/onerror
       // https://www.raymondcamden.com/2019/05/01/handling-errors-in-vuejs
       window.onerror = function(msg, url, lineNo, columnNo, error) {
-        var message = [
+        const message = [
           'Message: ' + msg,
           'URL: ' + url,
           'Line: ' + lineNo,
@@ -129,8 +129,8 @@ export function init(
           'Error object: ' + JSON.stringify(error)
         ].join(' - ');
         if (console) console.error('onerror', message);
-        var string = msg.toLowerCase();
-        var substring = 'script error';
+        const string = msg.toLowerCase();
+        const substring = 'script error';
         if (string.indexOf(substring) > -1) {
           alert('ERROR(onerror): Script Error: See Browser Console for Detail');
         } else {
@@ -231,7 +231,7 @@ export function init(
             });
           }
           if (response.config && response.config.__metadata__) {
-            let m = response.config.__metadata__;
+            const m = response.config.__metadata__;
             m.endTime = new Date();
             response.__completedIn__ = (m.endTime - m.startTime) / 1000;
           }
@@ -242,7 +242,7 @@ export function init(
         },
         function(error) {
           if (error.config && error.config.__metadata__) {
-            let m = error.config.__metadata__;
+            const m = error.config.__metadata__;
             m.endTime = new Date();
             error.__completedIn__ = (m.endTime - m.startTime) / 1000;
           }
@@ -374,7 +374,7 @@ export function init(
 // https://github.com/adamlacombe/Shadow-DOM-inject-styles/issues/4
 function prependStyles(shadowRootElement, styles) {
   const root = shadowRootElement.shadowRoot;
-  let styleAlreadyAdded = false;
+  var styleAlreadyAdded = false;
   const currentStyleTags = Array.from(root.querySelectorAll('style'));
   currentStyleTags.forEach(element => {
     if (element.innerHTML === styles) {
@@ -390,7 +390,7 @@ function prependStyles(shadowRootElement, styles) {
 }
 
 export function copyExternalStylesToShadowDom(wcs) {
-  var styles = Array.from(document.querySelectorAll('head>style')).reverse();
+  const styles = Array.from(document.querySelectorAll('head>style')).reverse();
 
   wcs.forEach(function(currentWC) {
     styles.forEach(function(currentStyle) {

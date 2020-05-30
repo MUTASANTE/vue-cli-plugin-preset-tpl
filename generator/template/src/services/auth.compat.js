@@ -15,23 +15,23 @@ function detectIE() {
     return false;
   }
 
-  var ua = window.navigator.userAgent;
+  const ua = window.navigator.userAgent;
 
-  var msie = ua.indexOf('MSIE ');
+  const msie = ua.indexOf('MSIE ');
   if (msie > 0) {
     if (process.env.VUE_APP_DEBUG_MODE && console) console.log('IE detected!');
     // IE 10 or older => return version number
     return true;
   }
 
-  var trident = ua.indexOf('Trident/');
+  const trident = ua.indexOf('Trident/');
   if (trident > 0) {
     if (process.env.VUE_APP_DEBUG_MODE && console) console.log('IE detected!');
     // IE 11 => return version number
     return true;
   }
 
-  var edge = ua.indexOf('Edge/');
+  const edge = ua.indexOf('Edge/');
   if (edge > 0) {
     if (process.env.VUE_APP_DEBUG_MODE && console) console.log('IE detected!');
     // Edge (IE 12+) => return version number
@@ -47,13 +47,13 @@ function detectIE() {
 // https://www.quirksmode.org/js/cookies.html
 // https://stackoverflow.com/questions/7551113/how-do-i-set-path-while-saving-a-cookie-value-in-javascript
 // https://www.tutorialrepublic.com/javascript-tutorial/javascript-cookies.php
-var storageObject =
+const storageObject =
   !isLocalStorageAvailable() && detectIE()
     ? {
         setItem(name, value, days = 0) {
           var expires = '';
           if (days) {
-            var date = new Date();
+            const date = new Date();
             date.setTime(date.getTime() + days * 24 * 60 * 60 * 1000);
             expires = '; expires=' + date.toUTCString();
           }
@@ -70,10 +70,10 @@ var storageObject =
           this.setItem(name, '', -1);
         },
         getItem(name) {
-          var nameEQ = name + '=';
-          var ca = document.cookie.split(';');
-          for (var i = 0; i < ca.length; i++) {
-            var c = ca[i];
+          const nameEQ = name + '=';
+          const ca = document.cookie.split(';');
+          for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
             while (c.charAt(0) == ' ') c = c.substring(1, c.length);
             if (c.indexOf(nameEQ) == 0) {
               try {
