@@ -5,7 +5,7 @@
 # mais uniquement ceux de la forme VUE_APP_* seront accessible automatiquement via process.env.VUE_APP_*,
 # les autres variables doivent être chargées "manuellement" dans process.env.* via require('dotenv').config()
 VUE_APP_ROUTE_MODE=hash
-VUE_APP_PUBLIC_PATH=.
+VUE_APP_PUBLIC_PATH=./
 
 # A non-empty value means "debug mode enabled".
 VUE_APP_DEBUG_MODE=1
