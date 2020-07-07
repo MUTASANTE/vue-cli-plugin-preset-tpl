@@ -33,7 +33,10 @@ module.exports = (api, options, rootOptions) => {
     devDependencies: {
       sass: '*',
       'sass-loader': '*',
-      'webpack-bundle-analyzer': '*'
+      'webpack-bundle-analyzer': '*',
+      'duplicate-package-checker-webpack-plugin': '*',
+      'inspectpack': '*',
+      'compression-webpack-plugin': '*'
     }
   });
 

@@ -1,7 +1,9 @@
 const webpack = require('webpack');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
   .BundleAnalyzerPlugin;
-//const CompressionPlugin = require('compression-webpack-plugin');
+const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
+const { DuplicatesPlugin } = require('inspectpack/plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
@@ -36,7 +38,10 @@ module.exports = {
         reportFilename: 'bundle-analyzer-' + process.env.NODE_ENV + '.html',
         openAnalyzer: false,
         generateStatsFile: false
-      })
+      }),
+      new CompressionPlugin(),
+      new DuplicatePackageCheckerPlugin({ verbose: true }),
+      new DuplicatesPlugin({ verbose: true })
     ],
     resolve: {
       alias: {
@@ -48,6 +53,9 @@ module.exports = {
         // https://medium.com/js-dojo/how-to-reduce-your-vue-js-bundle-size-with-webpack-3145bf5019b7
         // Ces entrées sont là pour réduire la taille des builds de production :
         jquery$: 'jquery/dist/jquery.slim.js'
+        // https://bootstrap-vue.org/docs#using-bootstrapvue-source-code-for-smaller-bundles
+        // Pour réduire un peu la taille du "build final" :
+        //'bootstrap-vue$': 'bootstrap-vue/src/index.js'
       }
     },
     optimization: {
@@ -60,7 +68,15 @@ module.exports = {
       // ne se trouvant pas dans le répertoire src/components pour que Webpack leur applique également le bon "loading mode".
       // IMPORTANT: le chargement des styles CSS ne fonctionnera plus avec les web components !!!
       //splitChunks: false
-    }
+      // https://github.com/ethereum/web3.js/issues/1178#issuecomment-464617646
+      // https://github.com/webpack/webpack/issues/2134
+      //runtimeChunk: {
+      //  name: 'runtime'
+      //}
+    },
+    // https://github.com/Microsoft/vscode-recipes/tree/master/vuejs-cli#vue-cli-3x
+    // Pour débugger avec Chrome
+    devtool: 'source-map'
   },
   // XXX : utiliser scss et sass en même temps dans un projet vue-cli semble poser problème à bootstrap ...
   // XXX : cela ne semble arriver que s'il y a un répertoire "@/sass" qui contienne des fichiers *.scss
@@ -78,10 +94,15 @@ module.exports = {
   //  },
   filenameHashing: true,
   // https://cli.vuejs.org/config/#productionsourcemap
-  productionSourceMap: false
+  productionSourceMap: false,
   // https://filosophy.org/code/bundling-vue-css-and-js-into-a-single-output-file/
   //css: {
   //  extract: true,
   //},
   //transpileDependencies: ['vuetify']
+  pluginOptions: {
+    i18n: {
+      enableInSFC: true
+    }
+  }
 };
