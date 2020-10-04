@@ -55,6 +55,7 @@ Vue.use(vueCustomElement);
 // which may not always be desirable.
 // See https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS#Simple_requests
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+// https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
 //axios.defaults.withCredentials = true;
 <% } -%>
 

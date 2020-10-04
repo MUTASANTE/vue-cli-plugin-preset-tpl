@@ -266,7 +266,7 @@ export function init(
         return Promise.reject(error);
       });
       axios.interceptors.response.use(
-        response => {
+        function(response) {
           // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
           // à le "parser" sous forme d'objet JSON.
           // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57

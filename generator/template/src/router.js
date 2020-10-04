@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Router from 'vue-router';
 import { detectIE } from './services/auth.compat';
+import qs from 'qs';
 const Home = () => import('./views/Home.vue');
 
 Vue.use(Router);
@@ -66,5 +67,14 @@ export default new Router({
     if (savedPosition) {
       return savedPosition;
     }
+  },
+  // https://github.com/vuejs/vue-router/issues/1259#issuecomment-306000548
+  // permet d'utiliser des objets en tant que "query" :
+  parseQuery(query) {
+    return qs.parse(query);
+  },
+  stringifyQuery(query) {
+    var result = qs.stringify(query);
+    return result ? '?' + result : '';
   }
 });
