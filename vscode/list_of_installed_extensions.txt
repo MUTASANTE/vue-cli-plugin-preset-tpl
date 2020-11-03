@@ -7,6 +7,7 @@ christian-kohler.path-intellisense
 cmstead.jsrefactor
 CoenraadS.bracket-pair-colorizer
 dariofuzinato.vue-peek
+DavidAnson.vscode-markdownlint
 dbaeumer.vscode-eslint
 donjayamanne.jquerysnippets
 eamodio.gitlens
@@ -17,6 +18,7 @@ firefox-devtools.vscode-firefox-debug
 formulahendry.auto-complete-tag
 formulahendry.auto-rename-tag
 gencer.html-slim-scss-css-class-completion
+GitHub.vscode-pull-request-github
 ishiyama.vue-autoimport
 jasonnutter.search-node-modules
 joelday.docthis
@@ -27,6 +29,7 @@ ms-vscode.hexeditor
 msjsdiag.debugger-for-chrome
 mubaidr.vuejs-extension-pack
 octref.vetur
+PKief.material-icon-theme
 robertoachar.vscode-essentials-snippets
 sburg.vscode-javascript-booster
 sdras.night-owl
