@@ -1,1 +1,1 @@
-code --list-extensions 
+@code --list-extensions 

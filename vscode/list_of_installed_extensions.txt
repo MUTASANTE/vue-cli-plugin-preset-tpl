@@ -1,5 +1,6 @@
 alefragnani.Bookmarks
 alexdima.copy-relative-path
+antfu.i18n-ally
 austin.code-gnu-global
 bmewburn.vscode-intelephense-client
 christian-kohler.npm-intellisense
@@ -26,6 +27,7 @@ lkytal.FlatUI
 mblode.twig-language-2
 ms-vscode.cpptools
 ms-vscode.hexeditor
+ms-vscode.js-debug
 msjsdiag.debugger-for-chrome
 mubaidr.vuejs-extension-pack
 octref.vetur

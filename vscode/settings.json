@@ -27,7 +27,6 @@
   "errorLens.enabledDiagnosticLevels": ["error"],
   "errorLens.gutterIconsEnabled": true,
   "vuejsAutoImport.hasTrailingComma": true,
-  "vuejsAutoImport.importWithSemicolon": true,
   "vuejsAutoImport.insertOneComponentPerLine": true,
   "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
   "terminal.integrated.shellArgs.windows": [
@@ -59,12 +58,14 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "workbench.iconTheme": "material-icon-theme",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "search.exclude": {
     "**/old": true
   },
+  "vuejsAutoImport.importWithSemicolon": true,
   "prettier.semi": false,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -72,5 +73,7 @@
   "debug.javascript.usePreview": false,
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "i18n-ally.sourceLanguage": "fr",
+  "i18n-ally.displayLanguage": "fr"
 }
