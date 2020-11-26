@@ -33,7 +33,7 @@ export const routes = [
 
 // XXX : bug sous Edge !!! A remonter à vue-router ?
 // Voir aussi https://github.com/vuejs/vue-router/pull/2774
-if (detectIE()) {
+if (detectIE() && window.history && window.history.replaceState) {
   const oldReplaceState = window.history.replaceState;
   window.history.replaceState = function(...args) {
     var matches;
