@@ -11,7 +11,7 @@ function isLocalStorageAvailable() {
 
 // https://stackoverflow.com/questions/32374875/localstorage-not-working-in-edge
 function detectIE() {
-  if (!window || !window.navigator || !window.navigator.userAgent) {
+  if (typeof window === 'undefined' || !window.navigator?.userAgent) {
     return false;
   }
 
@@ -47,7 +47,7 @@ function detectIE() {
 // https://www.quirksmode.org/js/cookies.html
 // https://stackoverflow.com/questions/7551113/how-do-i-set-path-while-saving-a-cookie-value-in-javascript
 // https://www.tutorialrepublic.com/javascript-tutorial/javascript-cookies.php
-const storageObject =
+const storageService =
   !isLocalStorageAvailable() && detectIE()
     ? {
         setItem(name, value, days = 0) {
@@ -90,4 +90,4 @@ const storageObject =
     : localStorage;
 
 export { detectIE };
-export default storageObject;
+export default storageService;

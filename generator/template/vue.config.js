@@ -54,7 +54,7 @@ module.exports = {
         // Ces entrées sont là pour réduire la taille des builds de production :
         jquery$: 'jquery/dist/jquery.slim.js'
         // https://bootstrap-vue.org/docs#using-bootstrapvue-source-code-for-smaller-bundles
-        // Pour réduire un peu la taille du "build final" :
+        // Pour réduire (un peu) la taille du "build final" :
         //'bootstrap-vue$': 'bootstrap-vue/src/index.js'
       }
     },

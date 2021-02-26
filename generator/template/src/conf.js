@@ -3,7 +3,7 @@ import camelCase from 'lodash/camelCase';
 import jQuery from 'jquery';
 
 const statusHandler = status => {
-  if (console && status === 'prepare') console.clear();
+  if (typeof console !== 'undefined' && status === 'prepare') console.clear();
 };
 
 // NB : il faut d'abord appeler init() pour initialiser le contenu de "conf" !
@@ -101,23 +101,25 @@ export function init(
     Vue.config.warnHandler = function(msg, vm, trace) {
       if (!Vue.config.silent) {
         if (console) console.error('warnHandler', msg, trace);
-        window && alert(`ERROR(warnHandler): ${msg}${trace}`);
+        typeof window !== 'undefined' &&
+          alert(`ERROR(warnHandler): ${msg}${trace}`);
       }
     };
 
     Vue.config.errorHandler = function(msg, vm, trace) {
       if (console) console.error('errorHandler', msg, trace);
-      window && alert(`ERROR(errorHandler): ${msg}${trace}`);
+      typeof window !== 'undefined' &&
+        alert(`ERROR(errorHandler): ${msg}${trace}`);
     };
 
-    if (window && !window.onunhandledrejection) {
+    if (typeof window !== 'undefined' && !window.onunhandledrejection) {
       window.onunhandledrejection = event => {
         if (console) console.error('onunhandledrejection', event.reason);
         alert(`ERROR(onunhandledrejection): ${event.reason}`);
       };
     }
 
-    if (window && !window.onerror) {
+    if (typeof window !== 'undefined' && !window.onerror) {
       // https://developer.mozilla.org/fr/docs/Web/API/GlobalEventHandlers/onerror
       // https://www.raymondcamden.com/2019/05/01/handling-errors-in-vuejs
       window.onerror = function(msg, url, lineNo, columnNo, error) {
@@ -150,7 +152,7 @@ export function init(
       if (console) console.error('errorHandler', msg, trace);
     };
 
-    if (window && !window.onunhandledrejection) {
+    if (typeof window !== 'undefined' && !window.onunhandledrejection) {
       window.onunhandledrejection = event => {
         if (console) console.error('onunhandledrejection', event.reason);
       };
@@ -202,9 +204,7 @@ export function init(
         },
         function(error) {
           // On ne loggue pas les données d'authentification.
-          if (
-            !(error.config && error.config.data && error.config.data.password)
-          ) {
+          if (!error.config?.data?.password) {
             // Log request error
             if (console) console.error(`Axios request error:\n`, error);
           }
@@ -230,7 +230,7 @@ export function init(
                 'Les données du serveur sont invalides. Chargement des données impossible.'
             });
           }
-          if (response.config && response.config.__metadata__) {
+          if (response.config?.__metadata__) {
             const m = response.config.__metadata__;
             m.endTime = new Date();
             response.__completedIn__ = (m.endTime - m.startTime) / 1000;
@@ -241,7 +241,7 @@ export function init(
           return Promise.resolve(response);
         },
         function(error) {
-          if (error.config && error.config.__metadata__) {
+          if (error.config?.__metadata__) {
             const m = error.config.__metadata__;
             m.endTime = new Date();
             error.__completedIn__ = (m.endTime - m.startTime) / 1000;
@@ -258,9 +258,7 @@ export function init(
       // Log request/response errors
       axios.interceptors.request.use(undefined, function(error) {
         // On ne loggue pas les données d'authentification.
-        if (
-          !(error.config && error.config.data && error.config.data.password)
-        ) {
+        if (!error.config?.data?.password) {
           if (console) console.error(`Axios request error:\n`, error);
         }
         return Promise.reject(error);
@@ -288,7 +286,7 @@ export function init(
         },
         function(error) {
           // On ne loggue pas les données d'authentification.
-          if (!(error.response && error.response.status === 401)) {
+          if (error.response?.status !== 401) {
             if (console) console.error(`Axios response error:\n`, error);
           }
           return Promise.reject(error);
@@ -299,7 +297,7 @@ export function init(
 
   // https://stackoverflow.com/questions/52548556/cannot-read-property-fn-of-undefined-in-vuejs
   // https://medium.com/code4mk-org/how-to-use-jquery-inside-vue-add-other-js-library-inside-vue-9eea8fbd0416
-  if (window && !window.jQuery) {
+  if (typeof window !== 'undefined' && !window.jQuery) {
     window.jQuery = jQuery;
   }
 
@@ -382,7 +380,7 @@ function prependStyles(shadowRootElement, styles) {
     }
   });
 
-  if (styleAlreadyAdded === false) {
+  if (!styleAlreadyAdded) {
     const newStyleTag = document.createElement('style');
     newStyleTag.innerHTML = styles;
     root.prepend(newStyleTag);
