@@ -36,7 +36,7 @@ module.exports = (api, options, rootOptions) => {
       'webpack-bundle-analyzer': '*',
       'duplicate-package-checker-webpack-plugin': '*',
       'inspectpack': '*',
-      'compression-webpack-plugin': '*'
+      'compression-webpack-plugin': '<7.0.0'
     }
   });
 
