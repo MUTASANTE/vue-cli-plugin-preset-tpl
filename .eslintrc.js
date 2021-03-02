@@ -19,4 +19,4 @@ module.exports = {
   globals: {
     VUE_APP_LOAD_MODE: true
   }
-}
+};

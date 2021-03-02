@@ -59,10 +59,10 @@ export function init(
   // https://github.com/vuejs/vue/issues/7653#issuecomment-425163501
   // wrap all methods of component with try-catch
   const handleMethodErrorsMixin = {
-    beforeCreate: function() {
+    beforeCreate: function () {
       const methods = this.$options.methods || {};
       Object.entries(methods).forEach(([key, method]) => {
-        const wrappedMethod = function(...args) {
+        const wrappedMethod = function (...args) {
           const result = method.apply(this, args);
           const resultIsPromise = result instanceof Promise;
           if (!resultIsPromise) return result;
@@ -98,7 +98,7 @@ export function init(
       Vue.mixin(handleMethodErrorsMixin);
     }
 
-    Vue.config.warnHandler = function(msg, vm, trace) {
+    Vue.config.warnHandler = function (msg, vm, trace) {
       if (!Vue.config.silent) {
         if (console) console.error('warnHandler', msg, trace);
         typeof window !== 'undefined' &&
@@ -106,7 +106,7 @@ export function init(
       }
     };
 
-    Vue.config.errorHandler = function(msg, vm, trace) {
+    Vue.config.errorHandler = function (msg, vm, trace) {
       if (console) console.error('errorHandler', msg, trace);
       typeof window !== 'undefined' &&
         alert(`ERROR(errorHandler): ${msg}${trace}`);
@@ -122,7 +122,7 @@ export function init(
     if (typeof window !== 'undefined' && !window.onerror) {
       // https://developer.mozilla.org/fr/docs/Web/API/GlobalEventHandlers/onerror
       // https://www.raymondcamden.com/2019/05/01/handling-errors-in-vuejs
-      window.onerror = function(msg, url, lineNo, columnNo, error) {
+      window.onerror = function (msg, url, lineNo, columnNo, error) {
         const message = [
           'Message: ' + msg,
           'URL: ' + url,
@@ -142,13 +142,13 @@ export function init(
       };
     }
   } else {
-    Vue.config.warnHandler = function(msg, vm, trace) {
+    Vue.config.warnHandler = function (msg, vm, trace) {
       if (!Vue.config.silent) {
         if (console) console.error('warnHandler', msg, trace);
       }
     };
 
-    Vue.config.errorHandler = function(msg, vm, trace) {
+    Vue.config.errorHandler = function (msg, vm, trace) {
       if (console) console.error('errorHandler', msg, trace);
     };
 
@@ -160,7 +160,7 @@ export function init(
   }
 
   if (axios) {
-    axios.interceptors.response.use(undefined, function(error) {
+    axios.interceptors.response.use(undefined, function (error) {
       var matches;
       // https://github.com/axios/axios/blob/master/dist/axios.js
       // TODO : utiliser vue-i18n et vue-cli-plugin-i18n ?
@@ -191,7 +191,7 @@ export function init(
 
     if (process.env.VUE_APP_DEBUG_MODE) {
       axios.interceptors.request.use(
-        function(config) {
+        function (config) {
           // https://stackoverflow.com/a/51279029/2332350
           config.__metadata__ = {
             startTime: new Date(),
@@ -202,7 +202,7 @@ export function init(
             console.log(`Axios request:\n`, config);
           return Promise.resolve(config);
         },
-        function(error) {
+        function (error) {
           // On ne loggue pas les données d'authentification.
           if (!error.config?.data?.password) {
             // Log request error
@@ -212,7 +212,7 @@ export function init(
         }
       );
       axios.interceptors.response.use(
-        function(response) {
+        function (response) {
           // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
           // à le "parser" sous forme d'objet JSON.
           // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
@@ -240,7 +240,7 @@ export function init(
             console.log(`Axios response:\n`, response);
           return Promise.resolve(response);
         },
-        function(error) {
+        function (error) {
           if (error.config?.__metadata__) {
             const m = error.config.__metadata__;
             m.endTime = new Date();
@@ -256,7 +256,7 @@ export function init(
       );
     } else {
       // Log request/response errors
-      axios.interceptors.request.use(undefined, function(error) {
+      axios.interceptors.request.use(undefined, function (error) {
         // On ne loggue pas les données d'authentification.
         if (!error.config?.data?.password) {
           if (console) console.error(`Axios request error:\n`, error);
@@ -264,7 +264,7 @@ export function init(
         return Promise.reject(error);
       });
       axios.interceptors.response.use(
-        function(response) {
+        function (response) {
           // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
           // à le "parser" sous forme d'objet JSON.
           // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
@@ -284,7 +284,7 @@ export function init(
           }
           return Promise.resolve(response);
         },
-        function(error) {
+        function (error) {
           // On ne loggue pas les données d'authentification.
           if (error.response?.status !== 401) {
             if (console) console.error(`Axios response error:\n`, error);
@@ -390,8 +390,8 @@ function prependStyles(shadowRootElement, styles) {
 export function copyExternalStylesToShadowDom(wcs) {
   const styles = Array.from(document.querySelectorAll('head>style')).reverse();
 
-  wcs.forEach(function(currentWC) {
-    styles.forEach(function(currentStyle) {
+  wcs.forEach(function (currentWC) {
+    styles.forEach(function (currentStyle) {
       prependStyles(
         // currentWC.getRootNode({ composed: true }).shadowRoot vaut null (TypeError: root is null)
         // lorsque currentWC est un élément DANS le shadow DOM, donc le code ci-dessous ne fonctionnera pas :

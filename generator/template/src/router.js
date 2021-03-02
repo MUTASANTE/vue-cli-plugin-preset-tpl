@@ -35,7 +35,7 @@ export const routes = [
 // Voir aussi https://github.com/vuejs/vue-router/pull/2774
 if (detectIE() && window.history && window.history.replaceState) {
   const oldReplaceState = window.history.replaceState;
-  window.history.replaceState = function(...args) {
+  window.history.replaceState = function (...args) {
     var matches;
     const newArgs = [...args];
     if (
