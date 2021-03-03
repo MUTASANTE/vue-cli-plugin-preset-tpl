@@ -8,10 +8,28 @@ Options -Indexes
 Options +FollowSymlinks
 RewriteEngine On
 
+# http://stackoverflow.com/questions/19842998/symfony2-hostname-pattern-not-working-for
+# Inspired from Symfony2 :
+# Determine the RewriteBase automatically and set it as environment variable.
+# https://stackoverflow.com/a/21487745/2332350
+# https://httpd.apache.org/docs/trunk/fr/rewrite/intro.html#regex
+# Explanation:
+# 0. REQUEST_URI is the concatenation of BASE_URI and URI, i.e. REQUEST_URI=BASE_URI/URI
+# 1. RewriteRule's first part is evaluated before RewriteCond's first part
+# 2. RewriteRule's expression (.*) matches URI and can be retrieved as $1
+# 3. %{REQUEST_URI}::URI must match condition ^(/.+)/URI::URI$ to be a valid rewrite condition
+# 4. (/.+) will then match BASE_URI and can be retrieved as %1
+RewriteCond %{REQUEST_URI}::$1 ^(/.+)/(.*)::\2$
+RewriteRule ^(.*) - [E=HTTP_BASE:%1]
+
+# https://httpd.apache.org/docs/2.4/fr/mod/mod_rewrite.html
+# https://httpd.apache.org/docs/2.4/fr/rewrite/flags.html
 # Only grant access to the "dist" directory
 RewriteCond $1 !^dist(/.*)?$
 RewriteRule ^(.*) - [R=403,END]
 
+# https://stackoverflow.com/a/50455849/2332350
+# https://stackoverflow.com/a/23809280/2332350
 # Serve gzip compressed CSS, JS or HTML files if they exist and the client accepts gzip.
 RewriteCond %{HTTP:Accept-encoding} gzip
 RewriteCond %{REQUEST_FILENAME}\.gz -s
