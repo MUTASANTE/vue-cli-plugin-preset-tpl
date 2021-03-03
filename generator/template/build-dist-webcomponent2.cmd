@@ -19,6 +19,7 @@ call "<%= globalScriptsPath.replace(/^\/|\/$/g, '') %>\npm" prune
 call "<%= globalScriptsPath.replace(/^\/|\/$/g, '') %>\npm" dedupe
 call "<%= globalScriptsPath.replace(/^\/|\/$/g, '') %>\npm" run build -- --mode webcomponent2
 
-call powershell -Command "(gc """"%~dp0dist\index.html"""") -replace '<div id=app></div>', '<!VUE_APP_WEB_COMPONENT_NAME!></!VUE_APP_WEB_COMPONENT_NAME!>' | Out-File -encoding utf8 """"%~dp0dist\index.html""""
+call powershell -Command "(gc """"%~dp0dist\index.html"""") -replace '<div id=""""app""""></div>', '<!VUE_APP_WEB_COMPONENT_NAME!></!VUE_APP_WEB_COMPONENT_NAME!>' | Out-File -encoding utf8 """"%~dp0dist\index.html""""
+if exist "%~dp0dist\index.html.gz" del /Q "%~dp0dist\index.html.gz"
 
 :fin
