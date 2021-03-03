@@ -246,8 +246,12 @@ export function init(
             m.endTime = new Date();
             error.__completedIn__ = (m.endTime - m.startTime) / 1000;
           }
-          // On ne loggue pas les données d'authentification.
-          if (!(error.response && error.response.status === 401)) {
+          // On ne loggue ni les requêtes qui ont été intentionnellement interrompues,
+          // ni les données d'authentification.
+          if (
+            error.response?.status !== 400 &&
+            error.response?.status !== 401
+          ) {
             // Log response error
             if (console) console.error(`Axios response error:\n`, error);
           }
@@ -285,8 +289,12 @@ export function init(
           return Promise.resolve(response);
         },
         function (error) {
-          // On ne loggue pas les données d'authentification.
-          if (error.response?.status !== 401) {
+          // On ne loggue ni les requêtes qui ont été intentionnellement interrompues,
+          // ni les données d'authentification.
+          if (
+            error.response?.status !== 400 &&
+            error.response?.status !== 401
+          ) {
             if (console) console.error(`Axios response error:\n`, error);
           }
           return Promise.reject(error);
