@@ -58,6 +58,8 @@
   "[vue]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
   "workbench.iconTheme": "material-icon-theme",
   "[html]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -65,8 +67,8 @@
   "search.exclude": {
     "**/old": true
   },
+  "editor.columnSelection": false,
   "vuejsAutoImport.importWithSemicolon": true,
-  "prettier.semi": false,
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -75,5 +77,9 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "i18n-ally.sourceLanguage": "fr",
-  "i18n-ally.displayLanguage": "fr"
+  "i18n-ally.displayLanguage": "fr",
+  "prettier.requireConfig": true,
+  "prettier.arrowParens": "avoid",
+  "prettier.trailingComma": "none",
+  "prettier.quoteProps": "preserve"
 }

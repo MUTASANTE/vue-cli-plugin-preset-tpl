@@ -9,5 +9,16 @@ Options +FollowSymlinks
 RewriteEngine On
 
 # Only grant access to the "dist" directory
-RewriteRule ^dist(/.*)?$ - [END]
-RewriteRule . - [R=403,END]
+RewriteCond $1 !^dist(/.*)?$
+RewriteRule ^(.*) - [R=403,END]
+
+# Serve gzip compressed CSS, JS or HTML files if they exist and the client accepts gzip.
+RewriteCond %{HTTP:Accept-encoding} gzip
+RewriteCond %{REQUEST_FILENAME}\.gz -s
+RewriteRule ^(.*)\.(css|js|html) %{ENV:HTTP_BASE}/$1\.$2\.gz [QSA]
+
+# Serve correct content types, and prevent mod_deflate double gzip.
+RewriteRule \.css\.gz$ - [T=text/css,E=no-gzip:1,E=is_gzip:1]
+RewriteRule \.js\.gz$ - [T=text/javascript,E=no-gzip:1,E=is_gzip:1]
+RewriteRule \.html\.gz$ - [T=text/html,E=no-gzip:1,E=is_gzip:1]
+Header set Content-Encoding "gzip" env=is_gzip
