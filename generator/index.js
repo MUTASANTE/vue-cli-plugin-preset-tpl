@@ -37,7 +37,7 @@ module.exports = (api, options, rootOptions) => {
       'duplicate-package-checker-webpack-plugin': '*',
       'inspectpack': '*',
       'compression-webpack-plugin': '<7.0.0',
-      'prettier': '*'
+      'prettier': '^2.2.1'
     }
   });
 
