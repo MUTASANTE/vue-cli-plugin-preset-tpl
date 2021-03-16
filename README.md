@@ -12,7 +12,7 @@ vue create my-project --preset MUTASANTE/vue-cli-plugin-preset-tpl
 - [vuex](https://github.com/vuejs/vuex)
 - [vue-resource](https://github.com/pagekit/vue-resource) (disabled by default)
 - [axios](https://github.com/axios/axios)
-- [jQuery](https://github.com/jquery/jquery) (disabled by default)
+- [jQuery](https://github.com/jquery/jquery)
 - [Bootstrap](https://github.com/twbs/bootstrap)
 - [popper.js (only when bootstrap is installed)](https://github.com/FezVrasta/popper.js/)
 - [BootstrapVue (as an alternative choice to pure Bootstrap)](https://github.com/bootstrap-vue/bootstrap-vue)

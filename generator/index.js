@@ -41,7 +41,7 @@ module.exports = (api, options, rootOptions) => {
 
   if (options.installationType == 2) {
     // These options weren't set, so do it now.
-    options.jquery = false;
+    options.jquery = true;
     options.vueResource = false;
     options.axios = true;
     options.bootstrap = true;
@@ -52,7 +52,10 @@ module.exports = (api, options, rootOptions) => {
   }
 
   if (options.installationType != 1) {
-    if (options.installationType != 2 && options.jquery) {
+    if (
+      options.installationType != 2 &&
+      (options.jquery || options.bootstrap)
+    ) {
       api.extendPackage({
         dependencies: {
           jquery: '*'
@@ -145,7 +148,7 @@ module.exports = (api, options, rootOptions) => {
 
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
-    useJquery: !!options.jquery,
+    useJquery: !!options.jquery || !!options.bootstrap,
     useVueResource: !!options.vueResource,
     useAxios: !!options.axios,
     useBootstrap: !!options.bootstrap,
