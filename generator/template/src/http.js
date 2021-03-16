@@ -1,5 +1,6 @@
+<% if (useVueResource || useAxios) { -%>
 import Vue from 'vue';
-<% if (useVueResource) { -%>
+<% } -%><% if (useVueResource) { -%>
 import VueResource from 'vue-resource';
 <% } -%><% if (useAxios) { -%>
 // eslint-disable-next-line
