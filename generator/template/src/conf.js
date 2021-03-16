@@ -1,6 +1,5 @@
 import upperFirst from 'lodash/upperFirst';
 import camelCase from 'lodash/camelCase';
-import jQuery from 'jquery';
 
 const statusHandler = status => {
   if (typeof console !== 'undefined' && status === 'prepare') console.clear();
@@ -27,13 +26,15 @@ export const conf = {
  * @param {*} axios objet axios qui sera utilisé
  * @param {boolean} autoloadComponents ajout/maj de l'autoloading de composants Vuejs ou non
  * @param {boolean} addMethodErrorsHandlerMixin ajout du Mixin "handleMethodErrorsMixin"
+ * @param {*} jQuery objet jQuery qui sera utilisé (obsolète et redondant avec les capacités natives de Vue.js)
  * au composant Vue pour une gestion plus poussée des erreurs et des exceptions (EXPERIMENTAL)
  */
 export function init(
   Vue,
   axios = null,
   autoloadComponents = true,
-  addMethodErrorsHandlerMixin = false
+  addMethodErrorsHandlerMixin = false,
+  jQuery = null
 ) {
   // https://github.com/vuejs/vue/issues/7653#issuecomment-425163501
   async function propagateErrorCaptured(component, error, vm) {
@@ -305,7 +306,7 @@ export function init(
 
   // https://stackoverflow.com/questions/52548556/cannot-read-property-fn-of-undefined-in-vuejs
   // https://medium.com/code4mk-org/how-to-use-jquery-inside-vue-add-other-js-library-inside-vue-9eea8fbd0416
-  if (typeof window !== 'undefined' && !window.jQuery) {
+  if (jQuery && typeof window !== 'undefined' && !window.jQuery) {
     window.jQuery = jQuery;
   }
 

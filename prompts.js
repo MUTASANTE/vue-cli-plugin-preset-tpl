@@ -18,6 +18,20 @@ module.exports = [
     default: 1 // array index of choice 'Complete'
   },
   {
+    name: 'jquery',
+    type: 'confirm',
+    message: 'Use jQuery? ',
+    default: false,
+    when: answers => answers.installationType == 3
+  },
+  {
+    name: 'vueResource',
+    type: 'confirm',
+    message: 'Use vue-resource? ',
+    default: false,
+    when: answers => answers.installationType == 3
+  },
+  {
     name: 'axios',
     type: 'confirm',
     message: 'Use axios? ',

@@ -26,8 +26,6 @@ module.exports = (api, options, rootOptions) => {
   // https://github.com/vxhly/vue-cli-plugin-preset-tpl/blob/master/generator/index.js
   api.extendPackage({
     dependencies: {
-      'vue-resource': '*',
-      jquery: '*',
       'vue-custom-element': '*'
     },
     devDependencies: {
@@ -43,6 +41,8 @@ module.exports = (api, options, rootOptions) => {
 
   if (options.installationType == 2) {
     // These options weren't set, so do it now.
+    options.jquery = false;
+    options.vueResource = false;
     options.axios = true;
     options.bootstrap = true;
     options.bootstrapVue = true;
@@ -52,6 +52,22 @@ module.exports = (api, options, rootOptions) => {
   }
 
   if (options.installationType != 1) {
+    if (options.installationType != 2 && options.jquery) {
+      api.extendPackage({
+        dependencies: {
+          jquery: '*'
+        }
+      });
+    }
+
+    if (options.installationType != 2 && options.vueResource) {
+      api.extendPackage({
+        dependencies: {
+          'vue-resource': '*'
+        }
+      });
+    }
+
     if (options.installationType == 2 || options.axios) {
       api.extendPackage({
         dependencies: {
@@ -129,6 +145,8 @@ module.exports = (api, options, rootOptions) => {
 
   api.render('./template', {
     // Embedded JavaScript templates (EJS): https://github.com/mde/ejs
+    useJquery: !!options.jquery,
+    useVueResource: !!options.vueResource,
     useAxios: !!options.axios,
     useBootstrap: !!options.bootstrap,
     useBootstrapVue: !!options.bootstrapVue,

@@ -4,10 +4,11 @@ import router from './router';
 import store from './store';
 import { init } from './conf';
 import vueCustomElement from 'vue-custom-element';
-<% if (useAxios) { -%>
+<% if (useJquery) { -%>
+import jQuery from 'jquery';
+<% } -%><% if (useAxios) { -%>
 import axios from 'axios';
-<% } -%>
-<% if (useVeevalidate) { -%>
+<% } -%><% if (useVeevalidate) { -%>
 import {
   extend as veeExtend,
   localize as veeLocalize,
@@ -61,7 +62,7 @@ axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 Vue.config.productionTip = process.env.NODE_ENV === 'production';
 
-init(Vue<% if (useAxios) { -%>, axios<% } -%>);
+init(Vue<% if (useAxios) { -%>, axios<% } else if (useJquery) { -%>, null<% } -%><% if (useJquery) { -%>, true, false, jQuery<% } -%>);
 
 // On instancie la vue uniquement si on ne construit
 // pas de "Web component" (voir WebComponent.vue).
