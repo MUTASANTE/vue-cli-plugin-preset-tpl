@@ -52,10 +52,7 @@ module.exports = (api, options, rootOptions) => {
   }
 
   if (options.installationType != 1) {
-    if (
-      options.installationType != 2 &&
-      (options.jquery || options.bootstrap)
-    ) {
+    if (options.installationType == 2 || options.jquery || options.bootstrap) {
       api.extendPackage({
         dependencies: {
           jquery: '*'
