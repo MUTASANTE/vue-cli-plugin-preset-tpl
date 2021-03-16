@@ -1,13 +1,10 @@
-<% if (useVueResource || useAxios) { -%>
-import Vue from 'vue';
-<% } -%><% if (useVueResource) { -%>
-import VueResource from 'vue-resource';
-<% } -%><% if (useAxios) { -%>
+<% if (useAxios) { -%>
 // eslint-disable-next-line
 import axios from 'axios';
-<% } -%>
+<% } -%><% if (useVueResource) { -%>
+import Vue from 'vue';
+import VueResource from 'vue-resource';
 
-<% if (useVueResource) { -%>
 // Ajout de plugins
 Vue.use(VueResource);
 
@@ -27,15 +24,15 @@ Vue.http.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 // alors il faut également prévenir le client d'effectuer l'envoi de ces données (cookies, headers, certificats TLS, ...)
 // si nécessaire :
 //Vue.http.options.credentials = true;
-
 <% } -%><% if (useAxios) { -%>
+
 axios.defaults.baseURL = 'http://localhost:81/tp/PHPDemoGeremi';
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';
 // https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/withCredentials
 //axios.defaults.withCredentials = true;
-
 <% } -%><% if (useVueResource) { -%>
+
 // eslint-disable-next-line
 const httpResource = Vue.resource(
   'stocks.json', // url with or without parameters (they are populated when calling one of the newly defined method)
@@ -46,6 +43,7 @@ const httpResource = Vue.resource(
     load: { method: 'GET' }
   }
 );
+<% } -%><% if (useAxios || useVueResource) { -%>
 
 <% } -%>export default {
   state: {},
