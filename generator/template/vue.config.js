@@ -1,9 +1,13 @@
+const path = require('path');
 const webpack = require('webpack');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const { DuplicatesPlugin } = require('inspectpack/plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
+
+function getFullPathFor(_path) {
+  return path.resolve(path.join(__dirname, _path));
+}
 
 module.exports = {
   publicPath: process.env.VUE_APP_PUBLIC_PATH,
@@ -47,15 +51,26 @@ module.exports = {
       alias: {
         // https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
         // Les <template>s des fichiers *.vue sont pré-compilés par vue-cli / vue-loader,
-        // dans les autres cas on peut intégrer la version complète (runtime+compiler) de Vuejs
+        // dans les autres cas on peut intégrer la version complète (runtime+compiler) de Vue.js
         // dans le "bundle" final en utilisant 'vue/dist/vue.esm.js' :
         vue$: 'vue/dist/vue.runtime.esm.js',
         // https://medium.com/js-dojo/how-to-reduce-your-vue-js-bundle-size-with-webpack-3145bf5019b7
         // Ces entrées sont là pour réduire la taille des builds de production :
-        jquery$: 'jquery/dist/jquery.slim.js'
+        jquery$: 'jquery/dist/jquery.slim.js',
         // https://bootstrap-vue.org/docs#using-bootstrapvue-source-code-for-smaller-bundles
         // Pour réduire (un peu) la taille du "build final" :
-        //'bootstrap-vue$': 'bootstrap-vue/src/index.js'
+        'bootstrap-vue$': 'bootstrap-vue/src/index.js',
+        // https://github.com/ethereum/web3.js/issues/2517#issuecomment-483672442
+        // Pour réduire la taille du "build final" en supprimant les injections multiples de bn.js :
+        // ./node_modules/bn.js/lib/bn.js (11.17 KB) => version la plus récente, on conserve
+        // ./node_modules/public-encrypt/node_modules/bn.js/lib/bn.js (10.88 KB) => version plus ancienne, on supprime
+        // ./node_modules/diffie-hellman/node_modules/bn.js/lib/bn.js (10.88 KB) => doublon, on supprime
+        // ./node_modules/asn1.js/node_modules/bn.js/lib/bn.js (10.88 KB) => doublon, on supprime
+        // ./node_modules/elliptic/node_modules/bn.js/lib/bn.js (10.88 KB) => doublon, on supprime
+        // ./node_modules/create-ecdh/node_modules/bn.js/lib/bn.js (10.88 KB) => doublon, on supprime
+        // ./node_modules/miller-rabin/node_modules/bn.js/lib/bn.js (10.88 KB) => doublon, on supprime
+        // ./node_modules/browserify-rsa/node_modules/bn.js/lib/bn.js (10.88 KB) => doublon, on supprime
+        'bn.js$': getFullPathFor('node_modules/bn.js')
       }
     },
     optimization: {
