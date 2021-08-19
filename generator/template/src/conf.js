@@ -179,7 +179,7 @@ export function init(
         )) &&
         matches.length == 2
       ) {
-        error.message = `La requête a échouée avec le code statut ${matches[1]}`;
+        error.message = `La requête a échoué avec le code statut ${matches[1]}`;
       } else if (
         error.message &&
         (matches = /^timeout of ([0-9]+)ms exceeded$/g.exec(
