@@ -165,8 +165,8 @@ module.exports.hooks = api => {
     // Workaround at https://github.com/vuejs/vue-cli/issues/5106#issuecomment-579509196 :
     // vue-router must be added to the "plugins" section of the preset.json file.
     //
-    //let mainTemplateVuePath = api.resolve('./src/App.tmpl.vue');
-    //let mainVuePath = mainTemplateVuePath.replace(/App\.tmpl\.vue$/, 'App.vue');
+    //const mainTemplateVuePath = api.resolve('./src/App.tmpl.vue');
+    //const mainVuePath = mainTemplateVuePath.replace(/App\.tmpl\.vue$/, 'App.vue');
     //fs.unlinkSync(mainVuePath);
     //fs.renameSync(mainTemplateVuePath, mainVuePath);
 
