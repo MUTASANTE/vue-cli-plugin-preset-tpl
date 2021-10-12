@@ -90,7 +90,7 @@ export function init(
   };
 
   // https://github.com/webpack/webpack-dev-server/issues/565
-  if (process.env.VUE_APP_DEBUG_MODE && module && module.hot) {
+  if (process.env.VUE_APP_DEBUG_MODE && module?.hot) {
     module.hot.accept(); // already had this init code
 
     module.hot.removeStatusHandler(statusHandler);
