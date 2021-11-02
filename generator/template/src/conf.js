@@ -54,9 +54,8 @@ export function init(
     }
     if (component.$parent && continuePropagation) {
       return await propagateErrorCaptured(component.$parent, error, vm);
-    } else {
-      return continuePropagation;
     }
+    return continuePropagation;
   }
 
   // https://github.com/vuejs/vue/issues/7653#issuecomment-425163501
