@@ -101,8 +101,8 @@ module.exports = (api, options, rootOptions) => {
     ) {
       api.extendPackage({
         dependencies: {
-          bootstrap: '*',
-          'bootstrap-vue': '*'
+          bootstrap: '^4.6.1',
+          'bootstrap-vue': '^2.21.2'
         }
       });
     }
@@ -122,7 +122,7 @@ module.exports = (api, options, rootOptions) => {
     if (options.installationType == 2 || options.veevalidate) {
       api.extendPackage({
         dependencies: {
-          'vee-validate': '*'
+          'vee-validate': '^3.4.14'
         }
       });
     }
@@ -130,7 +130,7 @@ module.exports = (api, options, rootOptions) => {
     if (options.installationType == 2 || options.vueLoadingOverlay) {
       api.extendPackage({
         dependencies: {
-          'vue-loading-overlay': '*'
+          'vue-loading-overlay': '^3.0'
         }
       });
     }
