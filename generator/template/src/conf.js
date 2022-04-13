@@ -162,147 +162,7 @@ export function init(
   }
 
   if (axios) {
-    axios.interceptors.response.use(undefined, function (error) {
-      var matches;
-      // https://github.com/axios/axios/blob/master/dist/axios.js
-      // TODO : utiliser vue-i18n et vue-cli-plugin-i18n ?
-      // On traduit en français les messages d'erreur d'Axios connus :
-      if (error.message === 'Request aborted') {
-        error.message = 'La requête a été interrompue';
-      } else if (error.message === 'Network Error') {
-        error.message = 'Service indisponible (problème de réseau)';
-      } else if (
-        error.message &&
-        (matches = /^Request failed with status code ([0-9]+)$/g.exec(
-          error.message.toString()
-        )) &&
-        matches.length == 2
-      ) {
-        error.message = `La requête a échoué avec le code statut ${matches[1]}`;
-      } else if (
-        error.message &&
-        (matches = /^timeout of ([0-9]+)ms exceeded$/g.exec(
-          error.message.toString()
-        )) &&
-        matches.length == 2
-      ) {
-        error.message = `Délai de ${matches[1]} ms dépassé`;
-      }
-      return Promise.reject(error);
-    });
-
-    if (process.env.VUE_APP_DEBUG_MODE) {
-      axios.interceptors.request.use(
-        function (config) {
-          // https://stackoverflow.com/a/51279029/2332350
-          config.__metadata__ = {
-            startTime: new Date(),
-            endTime: null
-          };
-          // Log valid request
-          if (process.env.VUE_APP_DEBUG_MODE && console)
-            console.log(`Axios request:\n`, config);
-          return Promise.resolve(config);
-        },
-        function (error) {
-          // On ne loggue pas les données d'authentification.
-          if (!error.config?.data?.password) {
-            // Log request error
-            if (console) console.error(`Axios request error:\n`, error);
-          }
-          return Promise.reject(error);
-        }
-      );
-      axios.interceptors.response.use(
-        function (response) {
-          // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
-          // à le "parser" sous forme d'objet JSON.
-          // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
-          // https://github.com/axios/axios/issues/811
-          // https://github.com/axios/axios/issues/61#issuecomment-411815115
-          if (typeof response.data === 'string') {
-            if (console)
-              console.error(
-                `Axios response error (cannot parse response data as JSON object):\n`,
-                response
-              );
-            return Promise.reject({
-              config: response.config,
-              message:
-                'Les données du serveur sont invalides. Chargement des données impossible.'
-            });
-          }
-          if (response.config?.__metadata__) {
-            const m = response.config.__metadata__;
-            m.endTime = new Date();
-            response.__completedIn__ = (m.endTime - m.startTime) / 1000;
-          }
-          // Log valid response
-          if (process.env.VUE_APP_DEBUG_MODE && console)
-            console.log(`Axios response:\n`, response);
-          return Promise.resolve(response);
-        },
-        function (error) {
-          if (error.config?.__metadata__) {
-            const m = error.config.__metadata__;
-            m.endTime = new Date();
-            error.__completedIn__ = (m.endTime - m.startTime) / 1000;
-          }
-          // On ne loggue ni les requêtes qui ont été intentionnellement interrompues,
-          // ni les données d'authentification.
-          if (
-            error.response?.status !== 400 &&
-            error.response?.status !== 401
-          ) {
-            // Log response error
-            if (console) console.error(`Axios response error:\n`, error);
-          }
-          return Promise.reject(error);
-        }
-      );
-    } else {
-      // Log request/response errors
-      axios.interceptors.request.use(undefined, function (error) {
-        // On ne loggue pas les données d'authentification.
-        if (!error.config?.data?.password) {
-          if (console) console.error(`Axios request error:\n`, error);
-        }
-        return Promise.reject(error);
-      });
-      axios.interceptors.response.use(
-        function (response) {
-          // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
-          // à le "parser" sous forme d'objet JSON.
-          // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
-          // https://github.com/axios/axios/issues/811
-          // https://github.com/axios/axios/issues/61#issuecomment-411815115
-          if (typeof response.data === 'string') {
-            if (console)
-              console.error(
-                `Axios response error (cannot parse response data as JSON object):\n`,
-                response
-              );
-            return Promise.reject({
-              config: response.config,
-              message:
-                'Les données du serveur sont invalides. Chargement des données impossible.'
-            });
-          }
-          return Promise.resolve(response);
-        },
-        function (error) {
-          // On ne loggue ni les requêtes qui ont été intentionnellement interrompues,
-          // ni les données d'authentification.
-          if (
-            error.response?.status !== 400 &&
-            error.response?.status !== 401
-          ) {
-            if (console) console.error(`Axios response error:\n`, error);
-          }
-          return Promise.reject(error);
-        }
-      );
-    }
+    initAxios(axios);
   }
 
   // https://stackoverflow.com/questions/52548556/cannot-read-property-fn-of-undefined-in-vuejs
@@ -375,6 +235,128 @@ export function init(
       Vue.component(componentName, componentConfig);
     }
   });
+}
+
+/**
+ * Permet de configurer une instance spécifique de l'objet axios.
+ * La méthode init2() peut être appelée en complément de cette méthode, par exemple :
+ * const axiosInstance = axios.create({
+ * baseURL: servicesURL,
+ * timeout: 10000,
+ * headers: {
+ *   common: {
+ *     'X-Requested-With': 'XMLHttpRequest'
+ *   }
+ * },
+ * DO_NOT_RECEIVE_JSON_DATA: true
+ * });
+ *
+ * initAxios(axiosInstance);
+ * init2(router, store, axiosInstance);
+ *
+ * @param {*} axios objet axios qui sera utilisé
+ */
+export function initAxios(axios) {
+  axios.interceptors.response.use(undefined, function (error) {
+    var matches;
+    // https://github.com/axios/axios/blob/master/dist/axios.js
+    // TODO : utiliser vue-i18n et vue-cli-plugin-i18n ?
+    // On traduit en français les messages d'erreur d'Axios connus :
+    if (error.message === 'Request aborted') {
+      error.message = 'La requête a été interrompue';
+    } else if (error.message === 'Network Error') {
+      error.message = 'Service indisponible (problème de réseau)';
+    } else if (
+      error.message &&
+      (matches = /^Request failed with status code ([0-9]+)$/g.exec(
+        error.message.toString()
+      )) &&
+      matches.length == 2
+    ) {
+      error.message = `La requête a échoué avec le code statut ${matches[1]}`;
+    } else if (
+      error.message &&
+      (matches = /^timeout of ([0-9]+)ms exceeded$/g.exec(
+        error.message.toString()
+      )) &&
+      matches.length == 2
+    ) {
+      error.message = `Délai de ${matches[1]} ms dépassé`;
+    }
+    return Promise.reject(error);
+  });
+
+  axios.interceptors.request.use(
+    process.env.VUE_APP_DEBUG_MODE
+      ? function (config) {
+          // https://stackoverflow.com/a/51279029/2332350
+          config.__metadata__ = {
+            startTime: new Date(),
+            endTime: null
+          };
+          // Log valid request
+          if (console) console.log(`Axios request:\n`, config);
+          return Promise.resolve(config);
+        }
+      : undefined,
+    function (error) {
+      // On ne loggue pas les données d'authentification.
+      if (!error.config?.data?.password) {
+        // Log request error
+        if (console) console.error(`Axios request error:\n`, error);
+      }
+      return Promise.reject(error);
+    }
+  );
+  axios.interceptors.response.use(
+    function (response) {
+      // Axios renvoie le "string" response.data tel quel s'il n'arrive pas
+      // à le "parser" sous forme d'objet JSON.
+      // https://github.com/axios/axios/blob/6642ca9aa1efae47b1a9d3ce3adc98416318661c/lib/defaults.js#L57
+      // https://github.com/axios/axios/issues/811
+      // https://github.com/axios/axios/issues/61#issuecomment-411815115
+      if (
+        !response.config.DO_NOT_RECEIVE_JSON_DATA &&
+        typeof response.data === 'string'
+      ) {
+        if (console)
+          console.error(
+            `Axios response error (cannot parse response data as JSON object):\n`,
+            response
+          );
+        return Promise.reject({
+          config: response.config,
+          message:
+            'Les données du serveur sont invalides. Chargement des données impossible.'
+        });
+      }
+      if (process.env.VUE_APP_DEBUG_MODE && response.config?.__metadata__) {
+        const m = response.config.__metadata__;
+        m.endTime = new Date();
+        response.__completedIn__ = (m.endTime - m.startTime) / 1000;
+        // Log valid response
+        if (console) console.log(`Axios response:\n`, response);
+      }
+      return Promise.resolve(response);
+    },
+    function (error) {
+      if (process.env.VUE_APP_DEBUG_MODE && error.config?.__metadata__) {
+        const m = error.config.__metadata__;
+        m.endTime = new Date();
+        error.__completedIn__ = (m.endTime - m.startTime) / 1000;
+      }
+      // On ne loggue ni les requêtes qui ont été intentionnellement interrompues,
+      // ni les données d'authentification, ni les requêtes annulées par l'utilisateur.
+      if (
+        error.response?.status !== 400 &&
+        error.response?.status !== 401 &&
+        !axios.isCancel(error)
+      ) {
+        if (console) console.error(`Axios response error:\n`, error);
+      }
+      return Promise.reject(error);
+    }
+  );
 }
 
 // Inspiré de :
