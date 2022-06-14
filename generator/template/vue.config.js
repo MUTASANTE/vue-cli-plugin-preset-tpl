@@ -91,7 +91,11 @@ module.exports = {
     },
     // https://github.com/Microsoft/vscode-recipes/tree/master/vuejs-cli#vue-cli-3x
     // Pour débugger avec Chrome
-    devtool: 'source-map'
+    devtool:
+      process.env.NODE_ENV === 'production'
+        ? // https://webpack.js.org/configuration/devtool/
+          'source-map'
+        : 'eval-source-map'
   },
   // XXX : utiliser scss et sass en même temps dans un projet vue-cli semble poser problème à bootstrap ...
   // XXX : cela ne semble arriver que s'il y a un répertoire "@/sass" qui contienne des fichiers *.scss
