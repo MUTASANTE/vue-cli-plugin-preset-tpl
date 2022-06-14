@@ -205,7 +205,7 @@ export function init(
   componentContext.keys().forEach(componentFilePath => {
     const componentName = upperFirst(
       camelCase(
-        // Retrouver le nom du fichier indépendemment de la profondeur de dossier
+        // Retrouver le nom du fichier indépendamment de la profondeur de dossier
         componentFilePath
           .split('/')
           .pop()
