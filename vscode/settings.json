@@ -28,11 +28,6 @@
   "errorLens.gutterIconsEnabled": true,
   "vuejsAutoImport.hasTrailingComma": true,
   "vuejsAutoImport.insertOneComponentPerLine": true,
-  "terminal.integrated.shell.windows": "C:\\WINDOWS\\System32\\cmd.exe",
-  "terminal.integrated.shellArgs.windows": [
-    "/K",
-    "E:\\regroup\\git\\PHPConfiguration\\conf-cordova.cmd"
-  ],
   "auto-close-tag.fullMode": true,
   "auto-close-tag.SublimeText3Mode": true,
   "auto-close-tag.enableAutoCloseTag": false,
@@ -81,5 +76,40 @@
   "prettier.requireConfig": true,
   "prettier.arrowParens": "avoid",
   "prettier.trailingComma": "none",
-  "prettier.quoteProps": "preserve"
+  "prettier.quoteProps": "preserve",
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell"
+    },
+    "Command Prompt": {
+      "path": [
+        "${env:windir}\\Sysnative\\cmd.exe",
+        "${env:windir}\\System32\\cmd.exe"
+      ],
+      "args": ["/K", "E:\\regroup\\git\\PHPConfiguration\\conf-cordova.cmd"],
+      "icon": "terminal-cmd"
+    },
+    "Git Bash": {
+      "source": "Git Bash"
+    }
+  },
+  "terminal.integrated.defaultProfile.windows": "Command Prompt",
+  "todo-tree.general.tags": ["BUG", "HACK", "FIXME", "TODO"],
+  "editor.bracketPairColorization.enabled": true,
+  "editor.guides.bracketPairs": "active",
+  "cSpell.language": "fr,fr-FR,en",
+  "cSpell.languageSettings": [
+    // This one works with JavaScript, Typescript, etc
+    // https://github.com/streetsidesoftware/vscode-spell-checker/issues/107#issuecomment-501770643
+    {
+      "languageId": "javascript,typescript,vue,json,css,scss,sass",
+      "includeRegExpList": ["CStyleComment"],
+      // Exclude imports, because they are also strings.
+      "ignoreRegExpList": [
+        // ignore single line imports (in comments)
+        "//\\s*import\\s*.*"
+      ]
+    }
+  ]
 }

@@ -21,7 +21,7 @@ export const conf = {
  * - activation de l'autoloading des fichiers components .vue
  * - console JS du navigateur effacée à chaque recompilation du projet (HMR)
  * - correction de l'erreur jQuery "Cannot read property 'fn' of undefined in VueJS"
- * - utilisation du plugin pagekit/vue-resource (pour les requêtes serveur asynchrones)
+ * - utilisation du plugin Axios (pour les requêtes serveur asynchrones)
  * @param {*} Vue composant Vue qui sera "mount-é" et affiché
  * @param {*} axios objet axios qui sera utilisé
  * @param {boolean} autoloadComponents ajout/maj de l'autoloading de composants Vue.js ou non

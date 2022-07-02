@@ -1,7 +1,4 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
@@ -11,10 +8,10 @@
       "url": "http://localhost:8080",
       "webRoot": "${workspaceFolder}",
       "breakOnLoad": true,
-      // Vue.js debugging in Chrome and VS Code : https://github.com/microsoft/vscode-recipes/tree/master/vuejs-cli
       "pathMapping": {
         "/_karma_webpack_": "${workspaceFolder}"
       },
+      /* https://github.com/microsoft/vscode-recipes/tree/main/vuejs-cli */
       "sourceMapPathOverrides": {
         "webpack:/*": "${webRoot}/*",
         "/./*": "${webRoot}/*",
@@ -28,8 +25,8 @@
       "request": "launch",
       "name": "vuejs: firefox",
       "url": "http://localhost:8080",
-      // https://github.com/firefox-devtools/vscode-firefox-debug#path-mapping
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}/src",
+      "pathMappings": [{ "url": "webpack:///src/", "path": "${webRoot}/" }]
     }
   ]
 }

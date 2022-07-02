@@ -35,7 +35,7 @@ module.exports = (api, options, rootOptions) => {
       'duplicate-package-checker-webpack-plugin': '*',
       'inspectpack': '*',
       'compression-webpack-plugin': '<7.0.0',
-      'prettier': '^2.2.1'
+      'prettier': '^2.7.1'
     }
   });
 
@@ -102,7 +102,7 @@ module.exports = (api, options, rootOptions) => {
       api.extendPackage({
         dependencies: {
           bootstrap: '^4.6.1',
-          'bootstrap-vue': '^2.21.2'
+          'bootstrap-vue': '^2.22.0'
         }
       });
     }
