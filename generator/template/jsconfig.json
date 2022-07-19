@@ -4,7 +4,11 @@
     "https://forum.vuejs.org/t/using-the-vue-cli-alias-in-vs-code/47530/2",
     "https://code.visualstudio.com/docs/languages/jsconfig#_using-webpack-aliases"
   ],
+  "cannot use jsx unless the '--jsx' flag is provided vuejs": [
+    "https://www.reddit.com/r/vuejs/comments/u0er9e/cannot_use_jsx_unless_the_jsx_flag_is_provided/"
+  ],
   "compilerOptions": {
+    "jsx": "preserve",
     "baseUrl": ".",
     "paths": {
       "@/*": ["src/*"]
