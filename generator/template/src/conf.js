@@ -104,14 +104,14 @@ export function init(
       if (!Vue.config.silent) {
         if (console) console.error('warnHandler', msg, trace);
         typeof window !== 'undefined' &&
-          alert(`ERROR(warnHandler): ${msg}${trace}`);
+          alert(`ERROR(warnHandler): ${msg}, ${trace}`);
       }
     };
 
     Vue.config.errorHandler = function (msg, vm, trace) {
       if (console) console.error('errorHandler', msg, trace);
       typeof window !== 'undefined' &&
-        alert(`ERROR(errorHandler): ${msg}${trace}`);
+        alert(`ERROR(errorHandler): ${msg}, ${trace}`);
     };
 
     if (typeof window !== 'undefined' && !window.onunhandledrejection) {
