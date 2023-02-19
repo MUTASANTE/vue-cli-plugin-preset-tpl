@@ -3,5 +3,6 @@ module.exports = {
   jsxSingleQuote: true,
   quoteProps: 'preserve',
   arrowParens: 'avoid',
-  trailingComma: 'none'
+  trailingComma: 'none',
+  endOfLine: 'auto'
 };
