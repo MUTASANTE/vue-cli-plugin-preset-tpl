@@ -34,7 +34,7 @@ module.exports = (api, options, rootOptions) => {
       'webpack-bundle-analyzer': '*',
       'duplicate-package-checker-webpack-plugin': '*',
       'inspectpack': '*',
-      'compression-webpack-plugin': '<7.0.0',
+      'compression-webpack-plugin': '*',
       'prettier': '^2.7.1'
     }
   });
@@ -112,7 +112,7 @@ module.exports = (api, options, rootOptions) => {
         dependencies: {
           '@fortawesome/fontawesome-svg-core': '*',
           '@fortawesome/free-solid-svg-icons': '*',
-          '@fortawesome/vue-fontawesome': '*',
+          '@fortawesome/vue-fontawesome': '^2.0.10',
           '@fortawesome/free-brands-svg-icons': '*',
           '@fortawesome/free-regular-svg-icons': '*'
         }
