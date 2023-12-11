@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import { detectIE } from './services/auth.compat';
 import qs from 'qs';
-const Home = () => import('./views/Home.vue');
+const Home = () => import('./views/HomeView.vue');
 
 Vue.use(Router);
 
@@ -20,7 +20,7 @@ export const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ './views/About.vue'),
+      import(/* webpackChunkName: "about" */ './views/AboutView.vue'),
     props: true
   },
   {

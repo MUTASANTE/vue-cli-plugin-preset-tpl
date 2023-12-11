@@ -29,15 +29,25 @@ module.exports = (api, options, rootOptions) => {
       'vue-custom-element': '*'
     },
     devDependencies: {
-      sass: '*',
-      'sass-loader': '*',
-      'webpack-bundle-analyzer': '*',
-      'duplicate-package-checker-webpack-plugin': '*',
-      'inspectpack': '*',
+      '@babel/core': '*',
+      '@babel/eslint-parser': '*',
+      '@vue/cli-plugin-babel': '*',
+      '@vue/cli-plugin-eslint': '*',
+      '@vue/cli-plugin-router': '*',
+      '@vue/cli-plugin-vuex': '*',
+      '@vue/cli-service': '*',
+      '@vue/eslint-config-prettier': '*',
       'compression-webpack-plugin': '*',
-      'prettier': '*',
+      'duplicate-package-checker-webpack-plugin': '*',
       'eslint': '*',
-      '@vue/eslint-config-prettier': '*'
+      'eslint-config-prettier': '*',
+      'eslint-plugin-prettier': '*',
+      'eslint-plugin-vue': '*',
+      'inspectpack': '*',
+      'prettier': '*',
+      'sass': '*',
+      'sass-loader': '*',
+      'webpack-bundle-analyzer': '*'
     }
   });
 
