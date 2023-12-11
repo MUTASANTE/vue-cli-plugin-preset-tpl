@@ -35,7 +35,9 @@ module.exports = (api, options, rootOptions) => {
       'duplicate-package-checker-webpack-plugin': '*',
       'inspectpack': '*',
       'compression-webpack-plugin': '*',
-      'prettier': '^2.7.1'
+      'prettier': '*',
+      'eslint': '*',
+      '@vue/eslint-config-prettier': '*'
     }
   });
 
