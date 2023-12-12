@@ -28,6 +28,8 @@ module.exports = (api, options, rootOptions) => {
     dependencies: {
       'vue-custom-element': '*'
     },
+    // TODO: remove the vue-template-compiler dependency
+    // that is automatically added by vue-cli.
     devDependencies: {
       '@babel/core': '*',
       '@babel/eslint-parser': '*',
