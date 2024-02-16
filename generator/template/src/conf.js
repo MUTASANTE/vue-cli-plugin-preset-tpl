@@ -26,8 +26,8 @@ export const conf = {
  * @param {*} axios objet axios qui sera utilisé
  * @param {boolean} autoloadComponents ajout/maj de l'autoloading de composants Vue.js ou non
  * @param {boolean} addMethodErrorsHandlerMixin ajout du Mixin "handleMethodErrorsMixin"
- * @param {*} jQuery objet jQuery qui sera utilisé (obsolète et redondant avec les capacités natives de Vue.js)
  * au composant Vue pour une gestion plus poussée des erreurs et des exceptions (EXPERIMENTAL)
+ * @param {*} jQuery objet jQuery qui sera utilisé (obsolète et redondant avec les capacités natives de Vue.js)
  *
  * NB : ne doit être appelé qu'une seule fois dans l'application Vue.js (idéalement dans main.js) !
  */
