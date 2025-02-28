@@ -132,8 +132,7 @@ module.exports = {
   //css: {
   //  extract: true,
   //},
-  //transpileDependencies: ['vuetify'],
-  transpileDependencies: ['bootstrap-vue'],
+  //transpileDependencies: ['vuetify', 'bootstrap-vue'],
   pluginOptions: {
     i18n: {
       enableInSFC: true
