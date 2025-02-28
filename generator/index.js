@@ -38,7 +38,7 @@ module.exports = (api, options, rootOptions) => {
       '@vue/cli-plugin-router': '*',
       '@vue/cli-plugin-vuex': '*',
       '@vue/cli-service': '*',
-      '@vue/eslint-config-prettier': '9.*',
+      '@vue/eslint-config-prettier': '^9.0.0',
       'compression-webpack-plugin': '*',
       'duplicate-package-checker-webpack-plugin': '*',
       'eslint': '*',
