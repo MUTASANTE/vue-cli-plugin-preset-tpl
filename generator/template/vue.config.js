@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const NodePolyfillPlugin = require('node-polyfill-webpack-plugin');
 const { BundleAnalyzerPlugin } = require('webpack-bundle-analyzer');
 const DuplicatePackageCheckerPlugin = require('duplicate-package-checker-webpack-plugin');
 const { DuplicatesPlugin } = require('inspectpack/plugin');
@@ -28,6 +29,12 @@ module.exports = {
       //vue: 'Vue'
     },
     plugins: [
+      // ReferenceError: process is not defined (_stream_writable.js:57)
+      // In webpack 5 automatic node.js polyfills are removed.
+      // https://stackoverflow.com/questions/65018431/webpack-5-uncaught-referenceerror-process-is-not-defined
+      // https://www.journaldunet.fr/developpeur/developpement/1516315-comment-faire-un-polyfill-automatise-dans-webpack-5/
+      // https://stackoverflow.com/a/72169560/2332350
+      new NodePolyfillPlugin(),
       new webpack.DefinePlugin({
         // conf.js : le seul moyen pour "variabiliser" les paramètres de require.context(...)
         // Même si pas obligatoire ici, on conserve le format VUE_APP_*
