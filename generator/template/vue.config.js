@@ -36,17 +36,24 @@ module.exports = {
         // https://webpack.js.org/api/module-methods/#requirecontext
         // Valeurs admises : 'sync' | 'eager' | 'weak' | 'lazy' | 'lazy-once', default 'sync'
         VUE_APP_LOAD_MODE: JSON.stringify('eager')
-      }),
-      new BundleAnalyzerPlugin({
-        analyzerMode: 'static',
-        reportFilename: 'bundle-analyzer-' + process.env.NODE_ENV + '.html',
-        openAnalyzer: false,
-        generateStatsFile: false
-      }),
-      new CompressionPlugin(),
-      new DuplicatePackageCheckerPlugin({ verbose: true }),
-      new DuplicatesPlugin({ verbose: true })
-    ],
+      })
+    ].concat(
+      // On désactive les plugins optionnels pour accélérer le HMR :
+      process.env.NODE_ENV === 'development'
+        ? []
+        : [
+            new BundleAnalyzerPlugin({
+              analyzerMode: 'static',
+              reportFilename:
+                'bundle-analyzer-' + process.env.NODE_ENV + '.html',
+              openAnalyzer: false,
+              generateStatsFile: false
+            }),
+            new CompressionPlugin(),
+            new DuplicatePackageCheckerPlugin({ verbose: true }),
+            new DuplicatesPlugin({ verbose: true })
+          ]
+    ),
     resolve: {
       alias: {
         // https://vuejs.org/v2/guide/installation.html#Runtime-Compiler-vs-Runtime-only
