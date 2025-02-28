@@ -26,4 +26,4 @@ vue create my-project --preset MUTASANTE/vue-cli-plugin-preset-tpl
 
 <hr>
 
-Our not maintained anymore Vue CLI 3 Preset can be found in branch [vue-cli-3](https://github.com/MUTASANTE/vue-cli-plugin-preset-tpl/tree/vue-cli-3)
+Our now unmaintained Vue CLI 3 Preset can be found in branch [vue-cli-3](https://github.com/MUTASANTE/vue-cli-plugin-preset-tpl/tree/vue-cli-3)
