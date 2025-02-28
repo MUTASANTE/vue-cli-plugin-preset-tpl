@@ -38,7 +38,7 @@ module.exports = (api, options, rootOptions) => {
       '@vue/cli-plugin-router': '*',
       '@vue/cli-plugin-vuex': '*',
       '@vue/cli-service': '*',
-      '@vue/eslint-config-prettier': '*',
+      '@vue/eslint-config-prettier': '9.*',
       'compression-webpack-plugin': '*',
       'duplicate-package-checker-webpack-plugin': '*',
       'eslint': '*',
@@ -98,13 +98,13 @@ module.exports = (api, options, rootOptions) => {
       if (options.popperjs) {
         api.extendPackage({
           dependencies: {
-            'popper.js': '*'
+            '@popperjs/core': '*'
           }
         });
       }
       api.extendPackage({
         dependencies: {
-          bootstrap: '*'
+          bootstrap: '^4.6.2'
         }
       });
     }
@@ -115,8 +115,8 @@ module.exports = (api, options, rootOptions) => {
     ) {
       api.extendPackage({
         dependencies: {
-          bootstrap: '^4.6.1',
-          'bootstrap-vue': '^2.22.0'
+          bootstrap: '^4.6.2',
+          'bootstrap-vue': '^2.23.1'
         }
       });
     }
@@ -136,7 +136,7 @@ module.exports = (api, options, rootOptions) => {
     if (options.installationType == 2 || options.veevalidate) {
       api.extendPackage({
         dependencies: {
-          'vee-validate': '^3.4.14'
+          'vee-validate': '^3.4.15'
         }
       });
     }
