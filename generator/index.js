@@ -46,6 +46,7 @@ module.exports = (api, options, rootOptions) => {
       'eslint-plugin-prettier': '*',
       'eslint-plugin-vue': '*',
       'inspectpack': '*',
+      'node-polyfill-webpack-plugin': '*',
       'prettier': '*',
       'sass': '*',
       'sass-loader': '*',
